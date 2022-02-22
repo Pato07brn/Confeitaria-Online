@@ -1,10 +1,10 @@
 # Confeitaria Online
 
-##Sobre
+###Sobre
 
 ### Em parceiria com meus sócios estou desenvolvendo este projeto simples porém bem feito de criar uma amostragem dos produtos oferecidos de uma confeitaria, assim criando uma experiência de filtragem e escolha dos produtos que serão pedidos via Whatsaap.
 
-##Tabela de conteúdos
+###Tabela de conteúdos
 =================
 <!--ts-->
    * [Sobre](#Sobre)
@@ -15,7 +15,7 @@
    * [Autor](#autor)
 <!--te-->
 
-##🚧 Em construção... 🚧
+###🚧 Em construção... 🚧
 
 ### Features
 
@@ -25,7 +25,7 @@
 - [ ] Cadastro de produtos
 - [x] Conexão com a base de dados
 
-##Como usar
+###Como usar
 
 ### Pré-requisitos
 
@@ -46,7 +46,7 @@ $ npm install
 npx webpack
 ```
 
-## 🛠 Tecnologias
+### 🛠 Tecnologias
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
