@@ -26,6 +26,10 @@
     <input type="radio" name="poder" value="fogo" />Fogo
     <input type="radio" name="poder" value="terra" />Terra
     </p>
+    <h2>autenticação</h2>
+    <input type="text" id="email" placeholder="Email" required/>
+    <input type="password" id="senha" placeholder="senha" required/>
+    </p>
     <p>
       <input type="button" id="btnSubmit" value="Submit me!" />
     </p>
@@ -38,11 +42,15 @@
     let dadoPoder = ''
     let dadoNome = ''
     let dadoIdade = ''
+    let email = ''
+    let senha = ''
     for (var i = 0; i < radios.length; i++) {
       if (radios[i].checked) {
         dadoPoder = radios[i].value
         dadoNome = document.getElementById('nome').value
         dadoIdade = document.getElementById('idade').value
+        email = document.getElementById('email').value
+        senha = document.getElementById('senha').value
       }
     }
     let dadosParaServ = {
@@ -50,7 +58,7 @@
       Idade: dadoIdade,
       Poder: dadoPoder
     }
-    adicionarDados(dadosParaServ)
+    adicionarDados(dadosParaServ, email, senha)
   };
 </script>
 </html>

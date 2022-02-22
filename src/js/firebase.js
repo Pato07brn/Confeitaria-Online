@@ -1,5 +1,6 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, doc, setDoc, addDoc, getDoc } from 'firebase/firestore';
 
 //Configuração
@@ -17,10 +18,22 @@ const app = initializeApp(firebaseConfig);
 //Inicia o Firestire
 const db = getFirestore(app);
 
+const auth = getAuth(app);
 
-window.adicionarDados  =  function(dados) {
-  addDoc(collection(db, "Users-docs"),dados);
+window.adicionarDados = function (dados, email, password) {
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+  addDoc(collection(db, "Users-docs"), dados);
 }
+
 
 
 /*
