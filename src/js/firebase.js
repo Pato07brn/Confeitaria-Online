@@ -25,8 +25,6 @@ function adicionarDados() {
     Poder: "Fogo"
   });
 }
-adicionarDados();
-*/
 
 //Recebe dados
 let Ada = "User1"
