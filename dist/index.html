@@ -1,12 +1,56 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 <script defer src="index.bundle.js"></script><script defer src="firebase.bundle.js"></script></head>
+
 <body>
-  <div id="dados"></div>
+  <h1>Subir Dados</h1>
+  <form method="post">
+    <p>
+    <h2>Escolha seu Nome</h2>
+    <input type="text" id="nome" placeholder="Insira o seu nome" required/>
+    </p>
+    <p>
+    <h2>Escolha a sua Idade</h2>
+    <input type="number" id="idade" placeholder="Insira a sua Idade" required/>
+    </p>
+    <p>
+    <h2>Escolha o seu poder</h2>
+    <input type="radio" name="poder" value="ar" /> Ar
+    <input type="radio" name="poder" value="agua" />Água
+    <input type="radio" name="poder" value="fogo" />Fogo
+    <input type="radio" name="poder" value="terra" />Terra
+    </p>
+    <p>
+      <input type="button" id="btnSubmit" value="Submit me!" />
+    </p>
+  </form>
 </body>
+<script>
+
+  document.getElementById("btnSubmit").onclick = function () {
+    let radios = document.getElementsByName("poder");
+    let dadoPoder = ''
+    let dadoNome = ''
+    let dadoIdade = ''
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        dadoPoder = radios[i].value
+        dadoNome = document.getElementById('nome').value
+        dadoIdade = document.getElementById('idade').value
+      }
+    }
+    let dadosParaServ = {
+      Nome: dadoNome,
+      Idade: dadoIdade,
+      Poder: dadoPoder
+    }
+    adicionarDados(dadosParaServ)
+  };
+</script>
 </html>

@@ -17,27 +17,29 @@ const app = initializeApp(firebaseConfig);
 //Inicia o Firestire
 const db = getFirestore(app);
 
-/*Adiciona dados
-function adicionarDados() {
-  docRef = setDoc(doc(db, "db", "User3"), {
-    Nome: "Bruno",
-    Idade: "21",
-    Poder: "Fogo"
-  });
+
+window.adicionarDados  =  function(dados) {
+  addDoc(collection(db, "Users-docs"),dados);
 }
 
+
+/*
 //Recebe dados
 let Ada = "User1"
 let Lara = "User2"
 let Bruno = "User3"
 
-async function lerDados(user){
-  const recebeDados = await getDoc(doc(db, "db", user));
-  console.log("Document data:", recebeDados.data());
-  return recebeDados.data();
+async function lerDados(user) {
+  const recebeDados = await getDoc(doc(db, "db", user))
+  let dados = recebeDados.data()
+  console.log(dados.nome)
+  return dados;
 }
 
 lerDados(Ada);
 lerDados(Lara);
 lerDados(Bruno);
 
+dadosBruno = lerDados(Bruno);
+console.log(dadosBruno.nome);
+*/
