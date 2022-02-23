@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Nova Receita</title>
+<script defer src="index.js"></script><script defer src="firebase.js"></script><link href="style.css" rel="stylesheet"></head>
+
+<body>
+    <h1>Insira aqui as informações da receita</h1>
+    <form>
+        <h2>Insira o nome</h2>
+        <input type="text" id="nome" placeholder="Insira o nome" required />
+        <p>
+        <h2>Insira o tempo de preparo em dias</h2>
+        <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required />
+        </p>
+        <p>
+        <h2>Insira o tipo da receita</h2>
+        <span class="tipos">
+            <section><input type="radio" name="tipo" value="Doce" />Doce</section>
+            <section><input type="radio" name="tipo" value="Torta" />Torta</section>
+            <section><input type="radio" name="tipo" value="Bolo" />Bolo</section>
+        </span>
+        </p>
+        <h2>autenticação</h2>
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="pass" placeholder="senha" required />
+        </p>
+        <p>
+            <input type="button" id="btnSubmit" value="Submit me!" />
+        </p>
+    </form>
+</body>
+<script>
+
+    document.getElementById("btnSubmit").onclick = function () {
+        let radios = document.getElementsByName("tipo");
+        let email = document.getElementById('email').value
+        let pass = document.getElementById('pass').value
+        let dadoPoder = ''
+        for (var i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                valueTipo = radios[i].value
+            }
+        }
+        let dadosParaServ = {
+            nome: document.getElementById('nome').value,
+            tempo: parseInt(document.getElementById('tempo').value),
+            tipo: valueTipo
+        }
+        adicionarDados(dadosParaServ, email, pass)
+    };
+</script>
+
+</html>

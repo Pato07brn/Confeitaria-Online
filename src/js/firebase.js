@@ -21,20 +21,18 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 
-window.adicionarDados = function (dados, email, password) {
+window.adicionarDados = function (values, email, password) {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      // Signed in
       const user = userCredential.user;
-      // ...
+      setDoc(doc(db, "Produtos-docs", values.nome), values);
+      alert("Receita adicionada ao catálogo com sucesso com sucesso")
     })
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       alert("Email ou senha inválidos")
     });
-  addDoc(collection(db, "Users-docs"), dados);
-  alert("Cadastro realizado com sucesso")
 }
 
 

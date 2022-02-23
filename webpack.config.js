@@ -13,6 +13,10 @@ module.exports = {
       filename: 'index.html',
       template: './src/index.html'
     }),
+    new HtmlWebpackPlugin({
+      filename: 'adicionar-novo.html',
+      template: './src/adicionar-novo.html'
+    }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
     })

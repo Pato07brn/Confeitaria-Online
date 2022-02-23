@@ -9,52 +9,7 @@
     Doce amor - Adicionar 
   </title>
 <script defer src="index.js"></script><script defer src="firebase.js"></script><link href="style.css" rel="stylesheet"></head>
-
 <body>
-  <h1>Subir Dados</h1>
-  <form>
-    <p>
-    <h2>Escolha seu Nome</h2>
-    <input type="text" id="nome" placeholder="Insira o seu nome" required/>
-    </p>
-    <p>
-    <h2>Escolha a sua Idade</h2>
-    <input type="number" id="idade" placeholder="Insira a sua Idade" required/>
-    </p>
-    <p>
-    <h2>Escolha o seu poder</h2>
-    <input type="radio" name="poder" value="ar" /> Ar
-    <input type="radio" name="poder" value="agua" />Água
-    <input type="radio" name="poder" value="fogo" />Fogo
-    <input type="radio" name="poder" value="terra" />Terra
-    </p>
-    <h2>autenticação</h2>
-    <input type="text" id="email" placeholder="Email" required/>
-    <input type="password" id="senha" placeholder="senha" required/>
-    </p>
-    <p>
-      <input type="button" id="btnSubmit" value="Submit me!" />
-    </p>
-  </form>
+  
 </body>
-<script>
-
-  document.getElementById("btnSubmit").onclick = function () {
-    let radios = document.getElementsByName("poder");
-    let email = document.getElementById('email').value
-    let senha = document.getElementById('senha').value
-    let dadoPoder = ''
-    for (var i = 0; i < radios.length; i++) {
-      if (radios[i].checked) {
-        dadoPoder = radios[i].value
-      }
-    }
-    let dadosParaServ = {
-      Nome: document.getElementById('nome').value,
-      Idade: document.getElementById('idade').value,
-      Poder: dadoPoder
-    }
-    adicionarDados(dadosParaServ, email, senha)
-  };
-</script>
 </html>
