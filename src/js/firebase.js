@@ -2,6 +2,7 @@ import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, collection, doc, setDoc, addDoc, getDoc } from 'firebase/firestore';
+import '../css/style.css'
 
 //Configuração
 const firebaseConfig = {
@@ -30,8 +31,10 @@ window.adicionarDados = function (dados, email, password) {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      alert("Email ou senha inválidos")
     });
   addDoc(collection(db, "Users-docs"), dados);
+  alert("Cadastro realizado com sucesso")
 }
 
 
