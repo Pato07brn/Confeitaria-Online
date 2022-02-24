@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adicionar Nova Receita</title>
 <script defer src="index.js"></script><script defer src="firebase.js"></script><link href="style.css" rel="stylesheet"></head>
-
 <body>
     <h1>Insira aqui as informações da receita</h1>
     <form>
@@ -34,24 +32,9 @@
         </p>
     </form>
 </body>
-<script>
-
+<script type="text/javascript">
     document.getElementById("btnSubmit").onclick = function () {
-        let radios = document.getElementsByName("tipo");
-        let email = document.getElementById('email').value
-        let pass = document.getElementById('pass').value
-        let dadoPoder = ''
-        for (var i = 0; i < radios.length; i++) {
-            if (radios[i].checked) {
-                valueTipo = radios[i].value
-            }
-        }
-        let dadosParaServ = {
-            nome: document.getElementById('nome').value,
-            tempo: parseInt(document.getElementById('tempo').value),
-            tipo: valueTipo
-        }
-        adicionarDados(dadosParaServ, email, pass)
+        adicionarDados()
     };
 </script>
 
