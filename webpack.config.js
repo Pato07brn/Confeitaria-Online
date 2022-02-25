@@ -7,7 +7,12 @@ module.exports = {
   entry: {
     index: './src/js/index.js',
     firebase: './src/js/firebase.js',
+    adm: './src/adm/admin.js'
   },
+  output: {
+    filename: 'js/[name].js',
+     path: path.resolve(__dirname, 'dist'),
+   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -17,12 +22,8 @@ module.exports = {
       filename: 'adicionar-novo.html',
       template: './src/adicionar-novo.html'
     }),
-    new HtmlWebpackPlugin({
-      filename: 'autenticacao.html',
-      template: './src/autenticacao.html'
-    }),
     new MiniCssExtractPlugin({
-      filename: 'style.css',
+      filename: "css/style.css",
     })
   ],
   module: {
