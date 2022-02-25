@@ -21,6 +21,21 @@ const db = getFirestore(app);
 //Inicia a autenticacao
 const auth = getAuth(app);
 
+window.autentica = function() {
+  const dados = dadosParaAutentica()  
+  signInWithEmailAndPassword(auth, dados.email, dados.password)
+  .then((userCredential) => {
+    const user = userCredential.user;
+    alert('usuário logado')
+    window.location.href = "./adicionar-novo.html"
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert('Senha ou Email incorretos')
+  });
+}
+
 //Verifica se existe no Firebase
 async function verificaDados(consulta){
   const produtos = collection(db, "Produtos-docs");
@@ -30,15 +45,20 @@ async function verificaDados(consulta){
   querySnapshot.forEach((doc) => {
     valuesBolo = doc.data()
   });
-  console.log(valuesBolo.nome);
   return valuesBolo.nome
 }
 
 // Retorna os dados do formulário
+function dadosParaAutentica(){
+  const email = document.getElementById('email').value
+  const password = document.getElementById('pass').value
+  return {email, password}
+}
+
+
+// Retorna os dados do formulário
 function dadosParaServ(){
   let radios = document.getElementsByName("tipo");
-  let email = document.getElementById('email').value
-  let password = document.getElementById('pass').value
   let valueTipo = ''
   for (var i = 0; i < radios.length; i++) {
     if (radios[i].checked) {
@@ -50,21 +70,21 @@ function dadosParaServ(){
     tempo: parseInt(document.getElementById('tempo').value),
     tipo: valueTipo
   }
-  return {email, password, dadosServ}
+  return dadosServ
 }
 
 //Sobe os dados no Firebase
 window.adicionarDados = async function () {
-  let dados = dadosParaServ()
-  let verifica = await verificaDados(dados.dadosServ.nome);
-  if (dados.dadosServ.nome == verifica) {
+  const dados = dadosParaServ()
+  const verifica = await verificaDados(dados.nome);
+  if (dados.nome == verifica) {
     alert("A receita já Existe")
   }
   else{
     signInWithEmailAndPassword(auth, dados.email, dados.password)
     .then((userCredential) => {
       const user = userCredential.user;
-      setDoc(doc(db, "Produtos-docs", dados.dadosServ.nome), dados.dadosServ);
+      setDoc(doc(db, "Produtos-docs", dados.nome), dados);
       alert("Receita adicionada ao catálogo com sucesso com sucesso")
     })
     .catch((error) => {

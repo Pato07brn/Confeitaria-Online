@@ -8,31 +8,27 @@
 </head>
 <body>
     <h1>Insira aqui as informações da receita</h1>
-    <form>
+    <form class="adicionar">
         <h2>Insira o nome</h2>
         <input type="text" id="nome" placeholder="Insira o nome" required />
-        <p>
         <h2>Insira o tempo de preparo em dias</h2>
         <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required />
-        </p>
-        <p>
         <h2>Insira o tipo da receita</h2>
         <span class="tipos">
-            <section><input type="radio" name="tipo" value="Doce" />Doce</section>
-            <section><input type="radio" name="tipo" value="Torta" />Torta</section>
-            <section><input type="radio" name="tipo" value="Bolo" />Bolo</section>
+
+                <input type="radio" name="tipo" value="Doce" />
+                <span>Doce</span>
+
+                <input type="radio" name="tipo" value="Torta" />
+                <span>Torta</span>    
+
+                <input type="radio" name="tipo" value="Bolo" />
+                <span>Bolo</span>    
         </span>
-        </p>
-        <h2>autenticação</h2>
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="pass" placeholder="senha" required />
-        </p>
-        <p>
-            <input type="button" id="btnSubmit" value="Submit me!" />
-        </p>
+        <input type="button" id="btnSubmit" value="Adicionar ao Catálogo" />
     </form>
 </body>
-<script type="text/javascript">
+<script type="">
     document.getElementById("btnSubmit").onclick = function () {
         adicionarDados()
     };

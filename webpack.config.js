@@ -17,6 +17,10 @@ module.exports = {
       filename: 'adicionar-novo.html',
       template: './src/adicionar-novo.html'
     }),
+    new HtmlWebpackPlugin({
+      filename: 'autenticacao.html',
+      template: './src/autenticacao.html'
+    }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
     })
