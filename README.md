@@ -34,7 +34,7 @@ Além disto é bom ter um editor para trabalhar com o código como [VSCode](http
 ### Clone o repositório e Instale as dependências
 ```bash
 # Clone este repositório
-$ git clone <https://github.com/Pato07brn/Confeitaria-Online>
+$ git clone "https://github.com/Pato07brn/Confeitaria-Online"
 
 # Instale as dependências
 $ npm install
