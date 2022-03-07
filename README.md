@@ -21,7 +21,7 @@
 - [ ] Amostragem de produtos
 - [ ] Front-end
 - [ ] Criação da base de dados
-- [ ] Cadastro de produtos
+- [x] Cadastro de produtos
 - [x] Conexão com a base de dados
 
 ## Pré-requisitos
