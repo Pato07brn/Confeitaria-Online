@@ -6,10 +6,21 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
-    Doce amor - Adicionar 
+    Doce amor - Adicionar
   </title>
 </head>
+
 <body>
-  
+  <input type="button" id="btnAdicionar" value="Adicionar" />
+  <input type="button" id="btnAtualizar" value="Atualizar" />
+  <input type="button" id="btnConsultar" value="Consultar" />
+  <input type="button" id="btnDeletar" value="Deletar" />
 </body>
+<script defer type="text/javascript">
+  document.getElementById("btnAdicionar").onclick = function () {
+    escreveId();
+    window.location.href = 'adicionar-novo.html'
+  };
+</script>
+
 </html>
