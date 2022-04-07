@@ -16,9 +16,14 @@
   <input type="button" id="btnConsultar" value="Consultar" />
   <input type="button" id="btnDeletar" value="Deletar" />
 </body>
-<script defer type="text/javascript">
+<script type="text/javascript">
   document.getElementById("btnAdicionar").onclick = function () {
-    window.location.href = 'adicionar-novo.html'
+    auth();
+    window.location.href = 'adm/adicionar-novo.html'
+  };
+  document.getElementById("btnDeletar").onclick = function () {
+    auth();
+    window.location.href = 'adm/delete.html'
   };
 </script>
 

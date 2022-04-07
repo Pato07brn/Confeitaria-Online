@@ -22,19 +22,25 @@ const app = initializeApp(firebaseConfig);
 //Inicia o Firestore
 const db = getFirestore(app);
 
+//Faz busca no bd
+async function consultaBanco(q) {
+  const querySnapshot = await getDocs(q);
+  let values = {};
+  querySnapshot.forEach((doc) => {
+    values = doc.data();
+  });
+  return values
+}
+
 //Verifica se existe no Firebase
 async function verificaDados(consulta) {
   const produtos = collection(db, "Produtos-docs");
   const q = query(produtos, where("nome", "==", consulta));
-  const querySnapshot = await getDocs(q);
-  let valuesBolo = {}
-  querySnapshot.forEach((doc) => {
-    valuesBolo = doc.data()
-  });
+  let valuesBolo = await consultaBanco(q)
   return valuesBolo.nome
 }
 
-// Retorna os dados do formulário
+//Retorna os dados do formulário
 function dadosParaServ() {
   let radios = document.getElementsByName("tipo");
   let valueTipo = ''
@@ -51,13 +57,35 @@ function dadosParaServ() {
   return dadosServ
 }
 
+//Consulta tudo no bd
+window.buscarDados = async function () {
+  const consulta = dadosParaServ()
+  const produtos = collection(db, "Produtos-docs");
+
+  const q1 = query(produtos,
+    where("nome", "==", consulta.nome),
+    where("tempo", "==", consulta.tempo),
+    where("tipo", "==", consulta.tipo)
+  );
+  const q2 = query(produtos, where("nome", "==", consulta.nome));
+  const q3 = query(produtos, where("tempo", "==", consulta.tempo));
+  const q4 = query(produtos, where("tipo", "==", consulta.tipo));
+
+  const valuesConsulta = {
+    Completa: await consultaBanco(q1),
+    nome: await consultaBanco(q2),
+    tempo: await consultaBanco(q3),
+    tipo: await consultaBanco(q4),
+  }
+  return valuesConsulta
+}
+
 //Sobe os dados no Firebase
 const auth = getAuth();
-
 window.adicionarDados = async function () {
   const dados = dadosParaServ()
   const verifica = await verificaDados(dados.nome);
-  if (dados.nome == verifica) {
+  if (dados.nome == verifica.nome) {
     alert("A receita já Existe")
   }
   else {
@@ -66,10 +94,10 @@ window.adicionarDados = async function () {
         const uid = user.uid;
         setDoc(doc(db, "Produtos-docs", dados.nome), dados);
         alert("Receita adicionada ao catálogo com sucesso com sucesso")
-        window.location.href = 'index.html'
+        window.location.href = '../index.html'
       } else {
         alert("Usuário não está logado")
-        window.location.href = 'autenticacao.html'
+        window.location.href = '../autenticacao.html'
       }
     });
   }

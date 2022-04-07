@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Nova Receita</title>
+<script defer src="../js/firebase.js"></script><script defer src="../js/auth.js"></script><link href="../css/style.css" rel="stylesheet"></head>
+
+<body>
+    <h1>Insira aqui as informações da receita</h1>
+    <form class="adicionar">
+        <h2>Insira o nome</h2>
+        <input type="text" id="nome" placeholder="Insira o nome" required />
+        <h2>Insira o tempo de preparo em dias</h2>
+        <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required />
+        <h2>Insira o tipo da receita</h2>
+        <span class="tipos">
+
+            <input type="radio" name="tipo" value="Doce" />
+            <span>Doce</span>
+
+            <input type="radio" name="tipo" value="Torta" />
+            <span>Torta</span>
+
+            <input type="radio" name="tipo" value="Bolo" />
+            <span>Bolo</span>
+        </span>
+        <input type="button" id="btnSubmit" value="Adicionar ao Catálogo" />
+    </form>
+</body>
+<script>
+    document.getElementById("btnSubmit").onclick = function () {
+        adicionarDados()
+    };
+</script>
+
+</html>

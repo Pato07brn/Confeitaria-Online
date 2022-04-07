@@ -19,18 +19,23 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
-      chunks: ['index']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'adicionar-novo.html',
-      template: './src/adicionar-novo.html',
-      chunks: ['firebase', 'auth']
+      chunks: ['index', 'auth']
     }),
     new HtmlWebpackPlugin({
       filename: 'autenticacao.html',
       template: './src/autenticacao.html',
       chunks: ['firebase', 'auth']
 
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'adm/adicionar-novo.html',
+      template: './src/adm/adicionar-novo.html',
+      chunks: ['firebase', 'auth']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'adm/delete.html',
+      template: './src/adm/delete.html',
+      chunks: ['firebase', 'auth']
     }),
     new MiniCssExtractPlugin({
       filename: "css/style.css",

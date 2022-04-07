@@ -1,6 +1,6 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
-import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
+import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence, onAuthStateChanged } from "firebase/auth";
 import { stubString } from 'lodash';
 
 //Configuração
@@ -30,6 +30,17 @@ window.autentica = function () {
         .catch((error) => {
             alert('Senha ou Email incorretos')
         });
+}
+
+window.auth = function(){
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          const uid = user.uid;
+        } else {
+          alert("Usuário não está logado")
+          window.location.href = 'C:/Users/Qualieng/Doce-amor/dist/autenticacao.html'
+        }
+      });
 }
 
 // Retorna os dados do formulário
