@@ -1,11 +1,12 @@
 {
-  "name": "webpack-demo",
-  "version": "1.0.0",
+  "name": "doce-amor",
+  "version": "1.2.0",
   "description": "Tentado sem sucesso fazer conexão com o firebase",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "dev": "webpack"
   },
   "keywords": [],
   "author": "",
