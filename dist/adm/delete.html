@@ -28,14 +28,18 @@
             <span>Bolo</span>
         </span>
         <input type="button" id="btnSubmit1" value="Verificar o Catálogo" />
-        <div id="resultado">
+    </form>
+    <form class="adicionar2">
+        <span id="resultado">
             
-        </div>
+        </span>
     </form>
 </body>
 <script defer type="text/javascript">
     document.getElementById("btnSubmit1").onclick = function () {
         auth();
+        var element = document.getElementById('resultado');
+        element.innerHTML = ''
         buscarDados()
     };
 </script>

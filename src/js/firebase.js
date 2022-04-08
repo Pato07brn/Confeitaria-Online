@@ -3,8 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc, setDoc, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { stubString } from 'lodash';
-
-import '../css/style.css'
+import '../css/style.css';
 
 //Configuração
 const firebaseConfig = {
@@ -29,21 +28,21 @@ async function consultaBanco(q) {
   querySnapshot.forEach((doc) => {
     values = doc.data();
   });
-  return values
+  return values;
 }
 
 //Verifica se existe no Firebase
 async function verificaDados(consulta) {
   const produtos = collection(db, "Produtos-docs");
   const q = query(produtos, where("nome", "==", consulta));
-  let valuesBolo = await consultaBanco(q)
-  return valuesBolo.nome
+  let valuesBolo = await consultaBanco(q);
+  return valuesBolo.nome;
 }
 
 //Retorna os dados do formulário
 function dadosParaServ() {
   let radios = document.getElementsByName("tipo");
-  let valueTipo = ''
+  let valueTipo = '';
   for (var i = 0; i < radios.length; i++) {
     if (radios[i].checked) {
       valueTipo = radios[i].value
@@ -54,12 +53,12 @@ function dadosParaServ() {
     tempo: parseInt(document.getElementById('tempo').value),
     tipo: valueTipo
   }
-  return dadosServ
+  return dadosServ;
 }
 
 //Consulta tudo no bd
 window.buscarDados = async function () {
-  const consulta = dadosParaServ()
+  const consulta = dadosParaServ();
   const produtos = collection(db, "Produtos-docs");
 
   const q1 = query(produtos,
@@ -70,7 +69,6 @@ window.buscarDados = async function () {
   const q2 = query(produtos, where("nome", "==", consulta.nome));
   const q3 = query(produtos, where("tempo", "==", consulta.tempo));
   const q4 = query(produtos, where("tipo", "==", consulta.tipo));
-
   const valuesConsulta = {
     Completa: await consultaBanco(q1),
     nome: await consultaBanco(q2),
@@ -79,37 +77,49 @@ window.buscarDados = async function () {
 
   }
 
-  var element = document.getElementById('resultado');
-  element.innerHTML = ''
+  exibeResultado(valuesConsulta);
+  //exibeResultado(valuesConsulta.tipo);
+  //exibeResultado(valuesConsulta.tempo);
 
-  for (var item in valuesConsulta.nome) {
-    //console.log(item + " - " + valuesNome[item]);
-    var element = document.getElementById('resultado');
-    var text = document.createTextNode(` ${item}: ${valuesNome[item]} ||`);
-    element.appendChild(text);
+  return valuesConsulta;
+}
+
+//Resultados na tela
+function exibeResultado(consulta) {
+  let count = 0;
+
+  for (let item in consulta) {
+    let html =
+      `<ul class="resultadosRadio"  >
+        <input type="radio" name="${consulta[item].nome}" value="${consulta[item].nome}"/>
+        Pelo ${item}:
+        <li>Nome: ${consulta[item].nome}
+        <li>Tipo: ${consulta[item].tipo}
+        <li>Tempo: ${consulta[item].tempo} Dias
+      </ul>`;
+    var elementin = document.getElementById(`resultado`);
+    elementin.insertAdjacentHTML("afterbegin", html);
   }
-
-  return valuesConsulta
 }
 
 //Sobe os dados no Firebase
 const auth = getAuth();
 window.adicionarDados = async function () {
-  const dados = dadosParaServ()
+  const dados = dadosParaServ();
   const verifica = await verificaDados(dados.nome);
   if (dados.nome == verifica) {
-    alert("A receita já Existe")
+    alert("A receita já Existe");
   }
   else {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
         setDoc(doc(db, "Produtos-docs", dados.nome), dados);
-        alert("Receita adicionada ao catálogo com sucesso com sucesso")
-        window.location.href = './index.html'
+        alert("Receita adicionada ao catálogo com sucesso com sucesso");
+        window.location.href = './index.html';
       } else {
         alert("Usuário não está logado")
-        window.location.href = './autenticacao.html'
+        window.location.href = './autenticacao.html';
       }
     });
   }

@@ -5,7 +5,7 @@ body {
   background-color: aquamarine;
   font-family: Arial, Helvetica, sans-serif;
   height: 100vh;
-  overflow: hidden; }
+  overflow: auto; }
 
 h1 {
   margin: 10px;
@@ -35,4 +35,15 @@ input {
 
 #btnSubmit {
   margin-top: 2em; }
+
+#resultado ul {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto auto; }
+
+#resultado ul input {
+  grid-row: 4; }
+
+#resultado ul li {
+  grid-row: 1; }
 

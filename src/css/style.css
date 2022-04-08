@@ -2,7 +2,7 @@ body{
     background-color: aquamarine;
     font-family: Arial, Helvetica, sans-serif;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;
 }
 
 h1{
@@ -19,6 +19,7 @@ form.adicionar{
     justify-content: space-evenly;
     height: 90vh;
 }
+
 input{
     text-align: center;
 }
@@ -34,7 +35,7 @@ input{
     width: 10vw;
 }
 
-
 #btnSubmit{
     margin-top: 2em ;
 }
+
