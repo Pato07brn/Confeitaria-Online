@@ -1,7 +1,7 @@
 {
   "name": "doce-amor",
   "version": "1.2.0",
-  "description": "Tentado sem sucesso fazer conexão com o firebase",
+  "description": "Agora está fluindo",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

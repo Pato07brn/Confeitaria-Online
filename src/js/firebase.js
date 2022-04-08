@@ -76,7 +76,19 @@ window.buscarDados = async function () {
     nome: await consultaBanco(q2),
     tempo: await consultaBanco(q3),
     tipo: await consultaBanco(q4),
+
   }
+
+  var element = document.getElementById('resultado');
+  element.innerHTML = ''
+
+  for (var item in valuesConsulta.nome) {
+    //console.log(item + " - " + valuesNome[item]);
+    var element = document.getElementById('resultado');
+    var text = document.createTextNode(` ${item}: ${valuesNome[item]} ||`);
+    element.appendChild(text);
+  }
+
   return valuesConsulta
 }
 
@@ -85,7 +97,7 @@ const auth = getAuth();
 window.adicionarDados = async function () {
   const dados = dadosParaServ()
   const verifica = await verificaDados(dados.nome);
-  if (dados.nome == verifica.nome) {
+  if (dados.nome == verifica) {
     alert("A receita já Existe")
   }
   else {
@@ -94,10 +106,10 @@ window.adicionarDados = async function () {
         const uid = user.uid;
         setDoc(doc(db, "Produtos-docs", dados.nome), dados);
         alert("Receita adicionada ao catálogo com sucesso com sucesso")
-        window.location.href = '../index.html'
+        window.location.href = './index.html'
       } else {
         alert("Usuário não está logado")
-        window.location.href = '../autenticacao.html'
+        window.location.href = './autenticacao.html'
       }
     });
   }

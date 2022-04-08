@@ -25,7 +25,7 @@ window.autentica = function () {
             const user = userCredential.user
             alert('usuário logado')
             setPersistence(auth, browserSessionPersistence)
-            window.location.href = 'index.html';
+            window.location.href = './index.html';
         })
         .catch((error) => {
             alert('Senha ou Email incorretos')
@@ -38,7 +38,7 @@ window.auth = function(){
           const uid = user.uid;
         } else {
           alert("Usuário não está logado")
-          window.location.href = 'C:/Users/Qualieng/Doce-amor/dist/autenticacao.html'
+          window.location.href = './autenticacao.html'
         }
       });
 }

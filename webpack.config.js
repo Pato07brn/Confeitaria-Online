@@ -17,13 +17,13 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: './src/index.html',
+      filename: 'adm/index.html',
+      template: './src/adm/index.html',
       chunks: ['index', 'auth']
     }),
     new HtmlWebpackPlugin({
-      filename: 'autenticacao.html',
-      template: './src/autenticacao.html',
+      filename: 'adm/autenticacao.html',
+      template: './src/adm/autenticacao.html',
       chunks: ['firebase', 'auth']
 
     }),
