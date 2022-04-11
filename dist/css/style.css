@@ -36,14 +36,35 @@ input {
 #btnSubmit {
   margin-top: 2em; }
 
-#resultado ul {
+.beforeCheck {
+  display: none; }
+
+.afterCheck {
+  display: block; }
+
+form.adicionar2 {
+  display: flex;
+  align-content: space-around;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: stretch; }
+
+form.adicionar2 ul {
+  list-style: none;
   display: grid;
+  justify-items: start;
   grid-template-columns: auto auto;
-  grid-template-rows: auto auto auto auto; }
+  grid-template-rows: auto auto auto; }
 
-#resultado ul input {
-  grid-row: 4; }
+form.adicionar2 ul li {
+  grid-column: 2; }
 
-#resultado ul li {
-  grid-row: 1; }
+form.adicionar2 ul li#ratioDelete {
+  display: flex;
+  grid-row: 1/span 3;
+  grid-column: 1;
+  align-items: center; }
+
+.atualizar {
+  text-align: center; }
 

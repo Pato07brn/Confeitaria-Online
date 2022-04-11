@@ -5,35 +5,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deletar uma receita</title>
+    <title>Atualizar uma receita</title>
 </head>
 
 <body>
-    <h1>Deletar uma receita</h1>
+    <h1>Atualizar uma receita</h1>
     <form class="adicionar">
-        <h2>Insira o nome</h2>
+        <h3>Insira o nome</h3>
         <input type="text" id="nome" placeholder="Insira o nome" required />
-        <h2>Insira o tempo de preparo em dias</h2>
+        <h3>Insira o tempo de preparo em dias</h3>
         <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required />
-        <h2>Insira o tipo da receita</h2>
+        <h3>Insira o tipo da receita</h3>
         <span class="tipos">
-
-            <input type="radio" name="tipo" value="Doce" />
-            <span>Doce</span>
-
-            <input type="radio" name="tipo" value="Torta" />
-            <span>Torta</span>
-
-            <input type="radio" name="tipo" value="Bolo" />
+            <input type="radio" name="tipo" value="Doce" /><span>Doce</span><input type="radio" name="tipo"
+                value="Torta" />
+            <span>Torta</span><input type="radio" name="tipo" value="Bolo" />
             <span>Bolo</span>
         </span>
         <input type="button" id="btnSubmit1" value="Verificar o Catálogo" />
     </form>
     <form class="adicionar2">
         <span id="resultado">
-
         </span>
-        <input type="button" id="btnSubmit2" class="beforeCheck" value="Deletar a receita" />
+        <input type="button" id="btnSubmit2" class="beforeCheck" value="Selecionar a receita" />
+        <span id="resultado2">
+            <input type="button" id="btnSubmit3" class="beforeCheck" value="Atualizar a receita" />
+        </span>
     </form>
 </body>
 <script defer type="text/javascript">
@@ -41,14 +38,18 @@
         auth();
         var element = document.getElementById('resultado');
         element.innerHTML = ''
-        var Btn2 = document.getElementById("btnSubmit2");
-        Btn2.classList.remove("afterCheck");
-        Btn2.classList.add("beforeCheck");
-        buscarDados();
+        buscarDadosConsulta();
     };
     document.getElementById("btnSubmit2").onclick = function () {
         auth();
-        excluirReceitaDenfer();
+        selecionaParaAtualizar(); 
+        var Btn3 = document.getElementById("btnSubmit3");
+        Btn3.classList.remove("beforeCheck");
+        Btn3.classList.add("afterCheck");
+    };
+    document.getElementById("btnSubmit3").onclick = function () {
+        auth();
+        atualizar();
     };
 </script>
 

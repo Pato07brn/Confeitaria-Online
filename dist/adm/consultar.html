@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deletar uma receita</title>
-</head>
+    <title>Consultar uma receita</title>
+<script defer src="../js/firebase.js"></script><script defer src="../js/auth.js"></script><link href="../css/style.css" rel="stylesheet"></head>
 
 <body>
-    <h1>Deletar uma receita</h1>
+    <h1>Consultar uma receita</h1>
     <form class="adicionar">
         <h2>Insira o nome</h2>
         <input type="text" id="nome" placeholder="Insira o nome" required />
@@ -33,7 +33,7 @@
         <span id="resultado">
 
         </span>
-        <input type="button" id="btnSubmit2" class="beforeCheck" value="Deletar a receita" />
+
     </form>
 </body>
 <script defer type="text/javascript">
@@ -42,8 +42,6 @@
         var element = document.getElementById('resultado');
         element.innerHTML = ''
         var Btn2 = document.getElementById("btnSubmit2");
-        Btn2.classList.remove("afterCheck");
-        Btn2.classList.add("beforeCheck");
         buscarDados();
     };
     document.getElementById("btnSubmit2").onclick = function () {

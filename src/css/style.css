@@ -1,16 +1,16 @@
-body{
+body {
     background-color: aquamarine;
     font-family: Arial, Helvetica, sans-serif;
     height: 100vh;
     overflow: auto;
 }
 
-h1{
+h1 {
     margin: 10px;
     text-align: center;
 }
 
-form.adicionar{
+form.adicionar {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -20,11 +20,11 @@ form.adicionar{
     height: 90vh;
 }
 
-input{
+input {
     text-align: center;
 }
 
-.tipos{ 
+.tipos {
     display: grid;
     align-items: stretch;
     grid-template-columns: auto auto;
@@ -35,7 +35,45 @@ input{
     width: 10vw;
 }
 
-#btnSubmit{
-    margin-top: 2em ;
+#btnSubmit {
+    margin-top: 2em;
 }
 
+.beforeCheck {
+    display: none;
+}
+
+.afterCheck {
+    display: block;
+}
+
+form.adicionar2 {
+    display: flex;
+    align-content: space-around;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+
+form.adicionar2 ul{
+    list-style: none;
+    display: grid;
+    justify-items: start;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto;
+}
+
+form.adicionar2 ul li{
+    grid-column: 2;
+}
+
+form.adicionar2 ul li#ratioDelete{
+    display: flex;
+    grid-row: 1/span 3;
+    grid-column: 1;
+    align-items: center;
+}
+
+.atualizar {
+    text-align: center;
+}

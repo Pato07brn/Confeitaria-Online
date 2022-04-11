@@ -1,8 +1,7 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, doc, setDoc, addDoc, getDocs, query, where } from 'firebase/firestore';
-import { stubString } from 'lodash';
+import { getFirestore, collection, doc, setDoc, addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
 import '../css/style.css';
 
 //Configuração
@@ -56,7 +55,8 @@ function dadosParaServ() {
   return dadosServ;
 }
 
-//Consulta tudo no bd
+//
+//Consulta tudo no bd e exibe
 window.buscarDados = async function () {
   const consulta = dadosParaServ();
   const produtos = collection(db, "Produtos-docs");
@@ -69,42 +69,86 @@ window.buscarDados = async function () {
   const q2 = query(produtos, where("nome", "==", consulta.nome));
   const q3 = query(produtos, where("tempo", "==", consulta.tempo));
   const q4 = query(produtos, where("tipo", "==", consulta.tipo));
-  const valuesConsulta = {
-    Completa: await consultaBanco(q1),
-    nome: await consultaBanco(q2),
-    tempo: await consultaBanco(q3),
-    tipo: await consultaBanco(q4),
 
+  const ValueQ1 = await consultaBanco(q1)
+  const Values = {
+    q2: await consultaBanco(q2),
+    q3: await consultaBanco(q3),
+    q4: await consultaBanco(q4),
   }
 
-  exibeResultado(valuesConsulta);
-  //exibeResultado(valuesConsulta.tipo);
-  //exibeResultado(valuesConsulta.tempo);
-
-  return valuesConsulta;
-}
-
-//Resultados na tela
-function exibeResultado(consulta) {
-  let count = 0;
-
-  for (let item in consulta) {
+  if (ValueQ1.nome == undefined || ValueQ1.nome == null || ValueQ1.nome == '') {
     let html =
-      `<ul class="resultadosRadio"  >
-        <input type="radio" name="${consulta[item].nome}" value="${consulta[item].nome}"/>
-        Pelo ${item}:
-        <li>Nome: ${consulta[item].nome}
-        <li>Tipo: ${consulta[item].tipo}
-        <li>Tempo: ${consulta[item].tempo} Dias
-      </ul>`;
-    var elementin = document.getElementById(`resultado`);
+      `<span id="semResultados" >
+    Seguem resultados mais próximos
+    </span>`;
+    let elementin = document.getElementById(`resultado`);
     elementin.insertAdjacentHTML("afterbegin", html);
   }
+  if (Values.q2.nome == ValueQ1.nome && Values.q3.nome == ValueQ1.nome && Values.q4.nome == ValueQ1.nome && Object.keys(ValueQ1).length !== 0) {
+    exibeResultado(ValueQ1)
+    var Btn2 = document.getElementById("btnSubmit2");
+    Btn2.classList.remove("beforeCheck");
+    Btn2.classList.add("afterCheck");
+  }
+  for (const key in Values) {
+    if (Values[key].nome !== ValueQ1.nome && Values[key].nome !== '' && Values[key].nome !== null && Object.keys(Values[key]).length !== 0) {
+      exibeResultado(Values[key]);
+      var Btn2 = document.getElementById("btnSubmit2");
+      Btn2.classList.remove("beforeCheck");
+      Btn2.classList.add("afterCheck");
+    }
+  }
+}
+function exibeResultado(consulta) {
+  let count = 0;
+  console.log(consulta);
+  let html =
+    `<ul class="resultadosRadio"  >
+      <li id="ratioDelete"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></li>
+      <li id="ratioNome">Nome: ${consulta.nome}</li>
+      <li>Tipo: ${consulta.tipo}</li>
+      <li>Tempo: ${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</li>
+    </ul>`;
+  let elementin = document.getElementById(`resultado`);
+  elementin.insertAdjacentHTML("beforeend", html);
+  var Btn3 = document.getElementById("btnSubmit3");
+  Btn3.classList.remove("beforeCheck");
+  Btn3.classList.add("afterCheck");
 }
 
-//Sobe os dados no Firebase
 const auth = getAuth();
-window.adicionarDados = async function () {
+window.excluirReceitaDenfer = async function () {
+  excluirReceita();
+}
+
+//adm/deletar.html
+//Deleta a receita
+async function excluirReceita() {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+    }
+    else {
+      alert("Usuário não está logado")
+      window.location.href = './autenticacao.html';
+    }
+    let radios = document.getElementsByName("escolha");
+    let valueEscolhido = '';
+    for (var i = 0; i < radios.length; i++) {
+      if (radios[i].checked) {
+        valueEscolhido = radios[i].value
+      }
+    }
+  });
+  await deleteDoc(doc(db, 'Produtos-docs', valueEscolhido));
+  alert("A Receita foi Excluída");
+  window.location.href = './index.html';
+}
+
+//adm/adicionar-novo.html
+//Sobe os dados no Firebase
+async function adicionarDados() {
   const dados = dadosParaServ();
   const verifica = await verificaDados(dados.nome);
   if (dados.nome == verifica) {
@@ -114,51 +158,16 @@ window.adicionarDados = async function () {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        setDoc(doc(db, "Produtos-docs", dados.nome), dados);
-        alert("Receita adicionada ao catálogo com sucesso com sucesso");
-        window.location.href = './index.html';
       } else {
         alert("Usuário não está logado")
         window.location.href = './autenticacao.html';
       }
     });
+    await setDoc(doc(db, "Produtos-docs", dados.nome), dados);
+    alert("Receita adicionada ao catálogo com sucesso com sucesso");
+    window.location.href = './index.html';
   }
 }
-
-
-
-
-/*
-const produtos = collection(db, "Produtos-docs");
-const q = query(produtos, where("nome", "==", "Bolo de chocolate"));
-const querySnapshot = await getDocs(q);
-let valuesBolo = {}
-querySnapshot.forEach((doc) => {
-  valuesBolo = doc.data()
-  console.log(valuesBolo.nome);
-});
-
-//Recebe dados
-async function lerDados(user) {
-  const recebeDados = await getDoc(doc(db, "db", user))
-  let dados = recebeDados.data()
-  console.log(dados.nome)
-  return dados;
+window.adicionarDadosDenfer = async function () {
+  adicionarDados();
 }
-
-lerDados(Ada);
-lerDados(Lara);
-lerDados(Bruno);
-
-dadosBruno = lerDados(Bruno);
-console.log(dadosBruno.nome);
-signInWithEmailAndPassword(auth, dados.email, dados.password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert("Email ou senha inválidos")
-    });
-*/

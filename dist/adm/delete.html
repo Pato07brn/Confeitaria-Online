@@ -31,8 +31,9 @@
     </form>
     <form class="adicionar2">
         <span id="resultado">
-            
+
         </span>
+        <input type="button" id="btnSubmit2" class="beforeCheck" value="Deletar a receita" />
     </form>
 </body>
 <script defer type="text/javascript">
@@ -40,7 +41,14 @@
         auth();
         var element = document.getElementById('resultado');
         element.innerHTML = ''
-        buscarDados()
+        var Btn2 = document.getElementById("btnSubmit2");
+        Btn2.classList.remove("afterCheck");
+        Btn2.classList.add("beforeCheck");
+        buscarDados();
+    };
+    document.getElementById("btnSubmit2").onclick = function () {
+        auth();
+        excluirReceitaDenfer();
     };
 </script>
 

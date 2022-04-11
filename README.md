@@ -23,8 +23,8 @@
 - [ ] Criação da base de dados
 - [x] Cadastro de produtos
 - [ ] Ler dados de produtos
-- [ ] Atualizar dados de produtos
-- [ ] Deletar produtos
+- [X] Atualizar dados de produtos
+- [x] Deletar produtos
 - [x] Conexão com a base de dados
 
 ## Pré-requisitos
