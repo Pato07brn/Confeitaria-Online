@@ -70,7 +70,7 @@ Feito por Bruno Nascimento 👋🏽 Entre em contato!
 [![Linkedin Badge](https://img.shields.io/badge/-Bruno-blue?style=flat-square&logo=https://www.linkedin.com/in/bruno-nascimento-605920181//)](https://www.linkedin.com/in/bruno-nascimento-605920181/) 
 
 <a href="https://www.linkedin.com/in/">
-<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/60072885" width="100px;" alt=""/>
+<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com" width="100px;" alt=""/>
 <br />
 <sub><b>Lukas</b></sub></a></a>
 
