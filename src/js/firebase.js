@@ -4,21 +4,27 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc, setDoc, addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
 import '../css/style.css';
 
+function init() {
+  return {
+    apiKey: "AIzaSyCrC9v2iBY9p_fScTMJgAmGHsfbDXx-5oc",
+    authDomain: "doce-amor-1e212.firebaseapp.com",
+    projectId: "doce-amor-1e212",
+    storageBucket: "doce-amor-1e212.appspot.com",
+    messagingSenderId: "10911075617",
+    appId: "1:10911075617:web:d7ffc01fcbc5a0b1c88260"
+  };
+}
+export {init}
+
 //Configuração
-const firebaseConfig = {
-  apiKey: "AIzaSyCrC9v2iBY9p_fScTMJgAmGHsfbDXx-5oc",
-  authDomain: "doce-amor-1e212.firebaseapp.com",
-  projectId: "doce-amor-1e212",
-  storageBucket: "doce-amor-1e212.appspot.com",
-  messagingSenderId: "10911075617",
-  appId: "1:10911075617:web:d7ffc01fcbc5a0b1c88260"
-};
+const firebaseConfig = init();
 
 //Inicia o Firebase
 const app = initializeApp(firebaseConfig);
 
 //Inicia o Firestore
 const db = getFirestore(app);
+
 
 //Faz busca no bd
 async function consultaBanco(q) {
@@ -100,6 +106,8 @@ window.buscarDados = async function () {
     }
   }
 }
+
+
 function exibeResultado(consulta) {
   let count = 0;
   console.log(consulta);
@@ -117,10 +125,8 @@ function exibeResultado(consulta) {
   Btn3.classList.add("afterCheck");
 }
 
+
 const auth = getAuth();
-window.excluirReceitaDenfer = async function () {
-  excluirReceita();
-}
 
 //adm/deletar.html
 //Deleta a receita
@@ -144,6 +150,10 @@ async function excluirReceita() {
   await deleteDoc(doc(db, 'Produtos-docs', valueEscolhido));
   alert("A Receita foi Excluída");
   window.location.href = './index.html';
+}
+
+window.excluirReceitaDenfer = async function () {
+  excluirReceita();
 }
 
 //adm/adicionar-novo.html

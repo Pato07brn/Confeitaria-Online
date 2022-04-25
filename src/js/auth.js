@@ -2,19 +2,12 @@ import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence, onAuthStateChanged } from "firebase/auth";
 import { stubString } from 'lodash';
+import { init } from './firebase';
 
 //Configuração
-const firebaseConfig = {
-    apiKey: "AIzaSyCrC9v2iBY9p_fScTMJgAmGHsfbDXx-5oc",
-    authDomain: "doce-amor-1e212.firebaseapp.com",
-    projectId: "doce-amor-1e212",
-    storageBucket: "doce-amor-1e212.appspot.com",
-    messagingSenderId: "10911075617",
-    appId: "1:10911075617:web:d7ffc01fcbc5a0b1c88260"
-};
+const firebaseConfig = init()
 
 const app = initializeApp(firebaseConfig);
-
 
 const auth = getAuth(app);
 
