@@ -19,7 +19,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'adm/index.html',
       template: './src/adm/index.html',
-      chunks: ['index', 'auth']
+      chunks: ['index', 'auth', 'atualizar']
     }),
     new HtmlWebpackPlugin({
       filename: 'adm/autenticacao.html',

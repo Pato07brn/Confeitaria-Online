@@ -121,7 +121,7 @@ function exibeResultado(consulta) {
   let count = 0;
   console.log(consulta);
   let html =
-    `<ul class="resultadosRadio"  >
+    `<ul class="resultadosRadio">
       <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></li>
       <li id="ratioNome">Nome: ${consulta.nome}</li>
       <li>Tipo: ${consulta.tipo}</li>

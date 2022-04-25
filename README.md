@@ -57,14 +57,23 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Firebase](https://firebase.google.com)
 - [Node.js](https://nodejs.org/en/)
 
-## Autor
+## Autores
 
 <a href="https://www.linkedin.com/in/bruno-nascimento-605920181/">
- <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/60072885?s=400&u=2a0f020c855eec077ea78eeec414d12e29b5ca9b&v=4" width="100px;" alt=""/>
- <br />
- <sub><b>Bruno</b></sub></a></a>
+<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/60072885?s=400&u=2a0f020c855eec077ea78eeec414d12e29b5ca9b&v=4" width="100px;" alt=""/>
+<br />
+<sub><b>Bruno</b></sub></a></a>
 
 
 Feito por Bruno Nascimento 👋🏽 Entre em contato!
 
 [![Linkedin Badge](https://img.shields.io/badge/-Bruno-blue?style=flat-square&logo=https://www.linkedin.com/in/bruno-nascimento-605920181//)](https://www.linkedin.com/in/bruno-nascimento-605920181/) 
+
+<a href="https://www.linkedin.com/in/">
+<img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/60072885" width="100px;" alt=""/>
+<br />
+<sub><b>Lukas</b></sub></a></a>
+
+Feito por Lukas Nascimento 👋🏽 Entre em contato!
+
+[![Linkedin Badge]()](https://www.linkedin.com/in/) 
