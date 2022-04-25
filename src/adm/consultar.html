@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultar uma receita</title>
+    <style>
+        #ratioChose, #ratioIN{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,20 +38,12 @@
         <span id="resultado">
 
         </span>
-
     </form>
 </body>
 <script defer type="text/javascript">
     document.getElementById("btnSubmit1").onclick = function () {
         auth();
-        var element = document.getElementById('resultado');
-        element.innerHTML = ''
-        var Btn2 = document.getElementById("btnSubmit2");
         buscarDados();
-    };
-    document.getElementById("btnSubmit2").onclick = function () {
-        auth();
-        excluirReceitaDenfer();
     };
 </script>
 

@@ -22,7 +22,7 @@
 - [ ] Front-end
 - [ ] Criação da base de dados
 - [x] Cadastro de produtos
-- [ ] Ler dados de produtos
+- [x] Ler dados de produtos
 - [X] Atualizar dados de produtos
 - [x] Deletar produtos
 - [x] Conexão com a base de dados
