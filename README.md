@@ -21,6 +21,7 @@
 - [ ] Amostragem de produtos
 - [ ] Front-end
 - [ ] Criação da base de dados
+- [ ] Upar imagens
 - [x] Cadastro de produtos
 - [x] Ler dados de produtos
 - [X] Atualizar dados de produtos
