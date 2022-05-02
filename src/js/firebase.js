@@ -90,6 +90,8 @@ window.buscarDados = async function () {
 
 
 function imprimeResultado(ValueQ1, Values) {
+  let elementin = document.getElementById(`resultado`);
+  elementin.innerHTML = '';
   if (ValueQ1.nome == undefined || ValueQ1.nome == null || ValueQ1.nome == '') {
     let html = `<span id="semResultados" >
     Seguem resultados mais próximos
