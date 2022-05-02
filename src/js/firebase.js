@@ -129,11 +129,6 @@ function exibeResultado(consulta) {
     </ul>`;
   let elementin = document.getElementById(`resultado`);
   elementin.insertAdjacentHTML("beforeend", html);
-  if (document.getElementById("btnSubmit3") !== null) {
-    var Btn3 = document.getElementById("btnSubmit3");
-    Btn3.classList.remove("beforeCheck");
-    Btn3.classList.add("afterCheck");
-  }
 }
 
 const auth = getAuth();
@@ -141,25 +136,30 @@ const auth = getAuth();
 //adm/deletar.html
 //Deleta a receita
 async function excluirReceita() {
+  let login = 0
+  let valueEscolhido = '';
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
+      login = 1
     }
     else {
+      login = 0
       alert("Usuário não está logado")
       window.location.href = './autenticacao.html';
     }
-    let radios = document.getElementsByName("escolha");
-    let valueEscolhido = '';
-    for (var i = 0; i < radios.length; i++) {
-      if (radios[i].checked) {
-        valueEscolhido = radios[i].value
-      }
-    }
   });
-  await deleteDoc(doc(db, 'Produtos-docs', valueEscolhido));
-  alert("A Receita foi Excluída");
-  window.location.href = './index.html';
+  let radios = document.getElementsByName("escolha");
+  for (var i = 0; i < radios.length; i++) {
+    if (radios[i].checked) {
+      valueEscolhido = radios[i].value
+    }
+  }
+  if (login = 1) {      
+    await deleteDoc(doc(db, 'Produtos-docs', valueEscolhido));
+    alert("A Receita foi Excluída");
+    window.location.href = './index.html';
+  }
 }
 window.excluirReceitaDenfer = async function () {
   excluirReceita();
@@ -169,6 +169,7 @@ window.excluirReceitaDenfer = async function () {
 //Sobe os dados no Firebase
 async function adicionarDados() {
   const dados = dadosParaServ();
+  let login = 0
   const verifica = await verificaDados(dados.nome);
   if (dados.nome == verifica) {
     alert("A receita já Existe");
@@ -177,14 +178,18 @@ async function adicionarDados() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
+        login = 1
       } else {
         alert("Usuário não está logado")
+        login = 0
         window.location.href = './autenticacao.html';
       }
     });
-    await setDoc(doc(db, "Produtos-docs", dados.nome), dados);
-    alert("Receita adicionada ao catálogo com sucesso com sucesso");
-    window.location.href = './index.html';
+    if (login = 1) {      
+      const sobe = await addDoc(collection(db, "Produtos-docs"), dados);
+      alert("Receita adicionada ao catálogo com sucesso com sucesso");
+      window.location.href = './index.html';
+    }
   }
 }
 window.adicionarDadosDenfer = async function () {

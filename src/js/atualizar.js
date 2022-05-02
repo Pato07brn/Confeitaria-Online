@@ -56,11 +56,14 @@ window.selecionaParaAtualizar = async function () {
 }
 
 window.atualizar = async function () {
+    let login = 0;
     onAuthStateChanged(auth, (user) => {
         if (user) {
             const uid = user.uid;
+            login = 1;
         } else {
             alert("Usuário não está logado")
+            login = 0;
             window.location.href = './autenticacao.html';
         }
     });
@@ -73,15 +76,20 @@ window.atualizar = async function () {
     }
     const produtos = collection(db, "Produtos-docs");
     const q1 = query(produtos, where("nome", "==", valueEscolhido));
-    const q2 = await consultaBanco(q1);
+    const q2 = await getDocs(q1);
     let dados = dadosParaServ();
-
-    const produtosDocs = doc(db, "Produtos-docs", q2.nome);
-    await updateDoc(produtosDocs, {
-        nome: valueEscolhido,
-        tempo: dados.tempo,
-        tipo: dados.tipo
-    });
-    alert("Receita atualizada com sucesso");
-    window.location.href = './index.html';
+    if (login == 1) {
+        let id = ''
+        q2.forEach((doc) => {
+            id = doc.id
+        });
+        const produtosDocs = doc(db, "Produtos-docs", id);
+        await updateDoc(produtosDocs, {
+            nome: dados.nome,
+            tempo: dados.tempo,
+            tipo: dados.tipo
+        });
+        alert("Receita atualizada com sucesso");
+        window.location.href = './index.html';
+    }
 }
