@@ -47,6 +47,11 @@ module.exports = {
       template: './src/adm/delete.html',
       chunks: ['firebase', 'auth']
     }),
+    new HtmlWebpackPlugin({
+      filename: './index.html',
+      template: './src/index.html',
+      chunks: ['index']
+    }),
     new MiniCssExtractPlugin({
       filename: "css/style.css",
     })

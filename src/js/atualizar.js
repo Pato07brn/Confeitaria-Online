@@ -1,7 +1,7 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, doc, setDoc, addDoc, getDocs, updateDoc, query, where } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDocs, updateDoc, query, where } from 'firebase/firestore';
 import { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado } from './firebase';
 
 //Configuração

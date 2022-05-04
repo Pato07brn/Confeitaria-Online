@@ -1,12 +1,14 @@
-import _ from 'lodash';
-import '../css/style.css'
+import { async } from '@firebase/util';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, doc, getDocs, updateDoc, query, where } from 'firebase/firestore';
+import { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado } from './firebase';
 
-function component() {
-    const element = document.createElement('div');
-  
-    // Lodash, currently included via a script, is required for this line to work
-    element.innerHTML = _.join(['Hello', 'losoo'], ' ');
-    return element;
-  }
+//Configuração
+const firebaseConfig = init()
 
-//document.body.appendChild(component());
+//Inicia o Firebase
+const app = initializeApp(firebaseConfig);
+
+//Inicia o Firestore
+const db = getFirestore(app);
+
