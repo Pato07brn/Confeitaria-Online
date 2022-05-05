@@ -5,11 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Doce Amor</title>
-<script defer src="js/index.js"></script><link href="css/style.css" rel="stylesheet"></head>
+<script defer src="js/index.js"></script><script defer src="js/firebase.js"></script><link href="css/style.css" rel="stylesheet"></head>
 <body>
-    <header></header>
-    <div></div>
-    <div></div>
-    <section></section>
+    <header id="cabecalho">Cabeçalho</header>
+    <div id="carrossel">Carrossel
+    <div id="pesquisa">Barra de pesquisa 
+        <label for="nome">Nome da receita</label>
+        <input type="text" id="nome">
+        <label for="nome">Tags</label>
+        <input type="text" id="tags">
+        <label for="nome">Tempo de preparo receita</label>
+        <input type="number" id="tempo">
+        <label for="estado">Tipo</label>
+        <select id="tipo" name="estado">
+            <option value=""></option>
+            <option value="Doce">Doce</option>
+            <option value="Bolo">Bolo</option>
+            <option value="Torta">Torta</option>
+        </select>
+        <input type="submit" value="Pesquisar" id="btnSubmit">
+    </div>
+    <div id="resultado-pesquisa">Resultado das pesquisas</div>
+    <footer id="rodape">rodapé</footer>
 </body>
+<script>
+    document.getElementById("btnSubmit").onclick = function(){
+        buscarDadosPesquisa()
+    }
+</script>
 </html>

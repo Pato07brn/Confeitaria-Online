@@ -25,7 +25,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 async function consultaBancoCompleto() {
-  const consulta = dadosParaServ();
+  let consulta = dadosParaServ();
   const produtos = collection(db, "Produtos-docs");
 
   const q1 = query(produtos,
@@ -36,12 +36,17 @@ async function consultaBancoCompleto() {
   const q2 = query(produtos, where("nome", "==", consulta.nome));
   const q3 = query(produtos, where("tempo", "==", consulta.tempo));
   const q4 = query(produtos, where("tipo", "==", consulta.tipo));
-
+  let q5 = null
+  if(consulta.tags.length !== 0){
+  q5 = query(produtos, where("tags", "array-contains-any", consulta.tags));
+  console.log(await consultaBanco(q5));
+  }
   const ValueQ1 = await consultaBanco(q1);
   const Values = {
     q2: await consultaBanco(q2),
     q3: await consultaBanco(q3),
     q4: await consultaBanco(q4),
+    q5: await consultaBanco(q5),
   };
   return { ValueQ1, Values };
 }
@@ -76,6 +81,7 @@ function dadosParaServ() {
   let dadosServ = {
     nome: document.getElementById('nome').value,
     tempo: parseInt(document.getElementById('tempo').value),
+    tags: document.getElementById('tags').value.split(" "),
     tipo: valueTipo
   }
   return dadosServ;
@@ -87,7 +93,6 @@ window.buscarDados = async function () {
   const { ValueQ1, Values } = await consultaBancoCompleto();
   imprimeResultado(ValueQ1, Values);
 }
-
 
 function imprimeResultado(ValueQ1, Values) {
   let elementin = document.getElementById(`resultado`);
@@ -108,7 +113,7 @@ function imprimeResultado(ValueQ1, Values) {
     }
   }
   for (const key in Values) {
-    if (Values[key].nome !== ValueQ1.nome && Values[key].nome !== '' && Values[key].nome !== null && Object.keys(Values[key]).length !== 0) {
+    if (Object.keys(Values[key]).length !== 0) {
       exibeResultado(Values[key]);
       if (document.getElementById("btnSubmit2") !== null) {
         var Btn2 = document.getElementById("btnSubmit2");
@@ -120,12 +125,13 @@ function imprimeResultado(ValueQ1, Values) {
 }
 
 function exibeResultado(consulta) {
-  let count = 0;
   console.log(consulta);
+  let tags = consulta.tags
   let html =
     `<ul class="resultadosRadio">
       <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></li>
       <li id="ratioNome">Nome: ${consulta.nome}</li>
+      <li id="ratioTags">Tags: ${tags}</li>
       <li>Tipo: ${consulta.tipo}</li>
       <li>Tempo: ${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</li>
     </ul>`;

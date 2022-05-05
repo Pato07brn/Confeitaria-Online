@@ -19,7 +19,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'adm/index.html',
       template: './src/adm/index.html',
-      chunks: ['index', 'auth', 'atualizar']
+      chunks: ['auth', 'atualizar']
     }),
     new HtmlWebpackPlugin({
       filename: 'adm/autenticacao.html',
@@ -50,7 +50,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: './index.html',
       template: './src/index.html',
-      chunks: ['index']
+      chunks: ['index' , 'firebase']
     }),
     new MiniCssExtractPlugin({
       filename: "css/style.css",

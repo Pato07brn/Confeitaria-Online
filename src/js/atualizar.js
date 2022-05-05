@@ -42,6 +42,8 @@ window.selecionaParaAtualizar = async function () {
         `<form class="atualizar">
         <h3>Atualize o nome da receita</h3>
         <input type="text" id="nome" value="${atualizar.nome}" />
+        <h3>Atualize as Tags de pesquisa</h3>
+        <input type="text" id="tags" placeholder="Insira as Tags de pesquisa" value="${atualizar.tags}"/>
         <h3>Atualize o tempo de preparo em dias</h3>
         <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required value="${atualizar.tempo}"/>
         <h3>Atualize o tipo da receita</h3>

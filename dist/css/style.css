@@ -68,3 +68,10 @@ form.adicionar2 ul li#ratioDelete {
 .atualizar {
   text-align: center; }
 
+#pesquisa {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: flex-end;
+  align-items: flex-start; }
+
