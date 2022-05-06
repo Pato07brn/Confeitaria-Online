@@ -37,9 +37,8 @@ async function consultaBancoCompleto() {
   const q3 = query(produtos, where("tempo", "==", consulta.tempo));
   const q4 = query(produtos, where("tipo", "==", consulta.tipo));
   let q5 = null
-  if(consulta.tags.length !== 0){
-  q5 = query(produtos, where("tags", "array-contains-any", consulta.tags));
-  console.log(await consultaBanco(q5));
+  if (consulta.tags.length !== 0) {
+    q5 = query(produtos, where("tags", "array-contains-any", consulta.tags));
   }
   const ValueQ1 = await consultaBanco(q1);
   const Values = {
@@ -54,9 +53,9 @@ async function consultaBancoCompleto() {
 //Faz busca no bd
 async function consultaBanco(q) {
   const querySnapshot = await getDocs(q);
-  let values = {};
+  let values = [];
   querySnapshot.forEach((doc) => {
-    values = doc.data();
+    values.push(doc.data());
   });
   return values;
 }
@@ -98,9 +97,7 @@ function imprimeResultado(ValueQ1, Values) {
   let elementin = document.getElementById(`resultado`);
   elementin.innerHTML = '';
   if (ValueQ1.nome == undefined || ValueQ1.nome == null || ValueQ1.nome == '') {
-    let html = `<span id="semResultados" >
-    Seguem resultados mais próximos
-    </span>`;
+    let html = `<span id="semResultados" >Seguem resultados mais próximos</span>`;
     let elementin = document.getElementById(`resultado`);
     elementin.insertAdjacentHTML("afterbegin", html);
   }
@@ -115,28 +112,32 @@ function imprimeResultado(ValueQ1, Values) {
   for (const key in Values) {
     if (Object.keys(Values[key]).length !== 0) {
       exibeResultado(Values[key]);
-      if (document.getElementById("btnSubmit2") !== null) {
-        var Btn2 = document.getElementById("btnSubmit2");
-        Btn2.classList.remove("beforeCheck");
-        Btn2.classList.add("afterCheck");
+      for (const key2 in Values[key]) {
+        exibeResultado(Values[key][key2]);
       }
+    }
+    if (document.getElementById("btnSubmit2") !== null) {
+      var Btn2 = document.getElementById("btnSubmit2");
+      Btn2.classList.remove("beforeCheck");
+      Btn2.classList.add("afterCheck");
     }
   }
 }
 
 function exibeResultado(consulta) {
-  console.log(consulta);
   let tags = consulta.tags
   let html =
     `<ul class="resultadosRadio">
       <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></li>
       <li id="ratioNome">Nome: ${consulta.nome}</li>
       <li id="ratioTags">Tags: ${tags}</li>
-      <li>Tipo: ${consulta.tipo}</li>
-      <li>Tempo: ${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</li>
+      <li id="tipoTags">Tipo: ${consulta.tipo}</li>
+      <li id="tempoTags">Tempo: ${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</li>
     </ul>`;
-  let elementin = document.getElementById(`resultado`);
-  elementin.insertAdjacentHTML("beforeend", html);
+  if (consulta.nome !== undefined) {
+    let elementin = document.getElementById(`resultado`);
+    elementin.insertAdjacentHTML("beforeend", html);
+  }
 }
 
 const auth = getAuth();
@@ -163,7 +164,7 @@ async function excluirReceita() {
       valueEscolhido = radios[i].value
     }
   }
-  if (login = 1) {      
+  if (login = 1) {
     await deleteDoc(doc(db, 'Produtos-docs', valueEscolhido));
     alert("A Receita foi Excluída");
     window.location.href = './index.html';
@@ -193,7 +194,7 @@ async function adicionarDados() {
         window.location.href = './autenticacao.html';
       }
     });
-    if (login = 1) {      
+    if (login = 1) {
       const sobe = await addDoc(collection(db, "Produtos-docs"), dados);
       alert("Receita adicionada ao catálogo com sucesso com sucesso");
       window.location.href = './index.html';

@@ -37,10 +37,11 @@ window.selecionaParaAtualizar = async function () {
     }
     const produtos = collection(db, "Produtos-docs");
     const q = query(produtos, where("nome", "==", valueEscolhido));
-    const atualizar = await consultaBanco(q)
+    const recebe = await consultaBanco(q)
+    const atualizar = recebe[0]
+    console.log(atualizar);
     let html =
-        `<form class="atualizar">
-        <h3>Atualize o nome da receita</h3>
+        `<h3>Atualize o nome da receita</h3>
         <input type="text" id="nome" value="${atualizar.nome}" />
         <h3>Atualize as Tags de pesquisa</h3>
         <input type="text" id="tags" placeholder="Insira as Tags de pesquisa" value="${atualizar.tags}"/>
@@ -51,8 +52,7 @@ window.selecionaParaAtualizar = async function () {
             <input type="radio" name="tipo" value="Doce" /><span>Doce</span>
             <input type="radio" name="tipo" value="Torta" /><span>Torta</span>
             <input type="radio" name="tipo" value="Bolo" /><span>Bolo</span>
-        </span>
-    </form>`;
+        </span>`;
     let elementin = document.getElementById("adicionar")
     elementin.innerHTML = html;
 }
@@ -88,6 +88,7 @@ window.atualizar = async function () {
         const produtosDocs = doc(db, "Produtos-docs", id);
         await updateDoc(produtosDocs, {
             nome: dados.nome,
+            tags: dados.tags,
             tempo: dados.tempo,
             tipo: dados.tipo
         });
