@@ -24,18 +24,20 @@ const app = initializeApp(firebaseConfig);
 //Inicia o Firestore
 const db = getFirestore(app);
 
+const database = {};
 async function recebeBanco() {
   const produtos = collection(db, "Produtos-docs");
   const pesquisa = query(produtos, where("nome", "!=", ""));
   const querySnapshot = await getDocs(pesquisa);
-  let values = [];
   querySnapshot.forEach((doc) => {
-    values[doc.id] = doc.data()
+    database[doc.id] = doc.data()
   });
-  return values;
+  window.database2 = database
+}
+window.deferRecebeBanco = async function () {
+  recebeBanco();
 }
 
-const databse = recebeBanco()
 
 async function consultaBancoCompleto() {
   let consulta = dadosParaServ();
