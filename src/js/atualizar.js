@@ -20,11 +20,6 @@ const auth = getAuth();
 window.buscarDadosConsulta = async function () {
     const { ValueQ1, Values } = await consultaBancoCompleto();
     imprimeResultado(ValueQ1, Values);
-    const ret = {
-        a: ValueQ1,
-        b: Values
-    }
-    return ret
 }
 
 window.selecionaParaAtualizar = async function () {

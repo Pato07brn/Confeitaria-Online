@@ -1,7 +1,7 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, getDocs, updateDoc, query, where } from 'firebase/firestore';
-import { init, consultaBanco, consultaBancoCompleto, imprimeResultado } from './firebase';
+import { getFirestore } from 'firebase/firestore';
+import { init } from './firebase';
 
 //Configuração
 const firebaseConfig = init()
@@ -14,35 +14,34 @@ const db = getFirestore(app);
 
 async function resultaPesquisa() {
     let consulta = dadosPesquisa();
-    const produtos = collection(db, "Produtos-docs");
-
-    const q1 = query(produtos,
-        where("nome", "==", consulta.nome),
-        where("tempo", "==", consulta.tempo),
-        where("tipo", "==", consulta.tipo)
-    );
-    const q2 = query(produtos, where("nome", "==", consulta.nome));
-    const q3 = query(produtos, where("tempo", "==", consulta.tempo));
-    const q4 = query(produtos, where("tipo", "==", consulta.tipo));
-    let q5 = null
-    if (consulta.tags.length !== 0) {
-        q5 = query(produtos, where("tags", "array-contains-any", consulta.tags));
+    if (window.database == undefined) {
+        await deferRecebeBanco();
     }
-    const ValueQ1 = await consultaBanco(q1);
-    const Values = {
-        q2: await consultaBanco(q2),
-        q3: await consultaBanco(q3),
-        q4: await consultaBanco(q4),
-        q5: await consultaBanco(q5),
-    };
-    return { ValueQ1, Values };
+    console.log(consulta.tags);
+    let database = window.database;
+    const q1 = [];
+    for (const key1 in database) {
+        for (let i = 0; i < consulta.tags.length; i++) {
+            database[key1].tags.includes(consulta.tags) == true
+            
+        }
+        if (database[key1].nome == consulta.nome ||
+            database[key1].tempo == consulta.tempo ||
+            database[key1].tipo == consulta.tipo ||
+            database[key1].tags.includes(consulta.tags) == true) 
+            {
+            q1.push(database[key1]);
+        }
+    }
+    const ValueQ1 = q1;
+    return { ValueQ1 };
 }
 
 function dadosPesquisa() {
     let values = {
         nome: document.getElementById("nome").value,
         tempo: document.getElementById("tempo").value,
-        tags: document.getElementById('tags').value.split(" "),
+        tags: document.getElementById('tags').value,
         tipo: document.getElementById("tipo").value
     }
     return values
@@ -57,26 +56,19 @@ window.buscarDadosPesquisa = async function () {
 const prateleiraBusca = function (ValueQ1, Values) {
     let elementin = document.getElementById(`resultado-pesquisa`);
     elementin.innerHTML = '';
-    if (Values.q2.nome == ValueQ1.nome && Values.q3.nome == ValueQ1.nome && Values.q4.nome == ValueQ1.nome && Object.keys(ValueQ1).length !== 0) {
-        exibeResultado(ValueQ1);
-    }
-    for (const key in Values) {
-        if (Values[key].nome !== ValueQ1.nome && Values[key].nome !== '' && Values[key].nome !== null && Object.keys(Values[key]).length !== 0) {
-            exibeResultado(Values[key]);
+    for (const key in ValueQ1) {
+        if (Object.keys(ValueQ1[key]).length !== 0) {
+            exibeResultado(ValueQ1[key]);
         }
-        for (const key2 in Values[key]) {
-            exibeResultado(Values[key][key2]);
+        if (document.getElementById("btnSubmit2") !== null) {
+            var Btn2 = document.getElementById("btnSubmit2");
+            Btn2.classList.remove("beforeCheck");
+            Btn2.classList.add("afterCheck");
         }
-    }
-    if (ValueQ1.nome == undefined || ValueQ1.nome == null || ValueQ1.nome == '') {
-        let html = `<span id="semResultados">Seguem resultados mais próximos</span>`;
-        let elementin = document.getElementById(`resultado-pesquisa`);
-        elementin.insertAdjacentHTML("afterbegin", html);
     }
 }
 
 function exibeResultado(consulta) {
-    console.log(consulta);
     let html =
         `<ul class="resultadosRadio">
         <li id="ratioNome">Nome: ${consulta.nome}</li>

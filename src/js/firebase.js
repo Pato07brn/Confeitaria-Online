@@ -1,7 +1,7 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, doc, setDoc, addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
+import { getFirestore, collection, doc,  addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
 import '../css/style.css';
 
 function init() {
@@ -24,45 +24,37 @@ const app = initializeApp(firebaseConfig);
 //Inicia o Firestore
 const db = getFirestore(app);
 
-const database = {};
 async function recebeBanco() {
+  const database_denfer = {};
   const produtos = collection(db, "Produtos-docs");
   const pesquisa = query(produtos, where("nome", "!=", ""));
   const querySnapshot = await getDocs(pesquisa);
   querySnapshot.forEach((doc) => {
-    database[doc.id] = doc.data()
+    database_denfer[doc.id] = doc.data()
   });
-  window.database2 = database
+  window.database = database_denfer;
 }
 window.deferRecebeBanco = async function () {
   recebeBanco();
+  console.log('Amigo estou aqui');
 }
 
 
 async function consultaBancoCompleto() {
   let consulta = dadosParaServ();
-  const produtos = collection(db, "Produtos-docs");
-
-  const q1 = query(produtos,
-    where("nome", "==", consulta.nome),
-    where("tempo", "==", consulta.tempo),
-    where("tipo", "==", consulta.tipo)
-  );
-  const q2 = query(produtos, where("nome", "==", consulta.nome));
-  const q3 = query(produtos, where("tempo", "==", consulta.tempo));
-  const q4 = query(produtos, where("tipo", "==", consulta.tipo));
-  let q5 = null
-  if (consulta.tags.length !== 0) {
-    q5 = query(produtos, where("tags", "array-contains-any", consulta.tags));
+  if(window.database == undefined){
+    await deferRecebeBanco();
   }
-  const ValueQ1 = await consultaBanco(q1);
-  const Values = {
-    q2: await consultaBanco(q2),
-    q3: await consultaBanco(q3),
-    q4: await consultaBanco(q4),
-    q5: await consultaBanco(q5),
-  };
-  return { ValueQ1, Values };
+  let database = window.database;
+  const q1 = [];
+  for (const key1 in database) {
+    if (database[key1].nome == consulta.nome || database[key1].tempo == consulta.tempo || database[key1].tipo == consulta.tipo) {
+      q1.push(database[key1]);
+    }
+  }
+  console.log(q1);
+  const ValueQ1 = q1;
+  return { ValueQ1 };
 }
 
 //Faz busca no bd
@@ -73,9 +65,7 @@ async function consultaBanco(q) {
     values.push(doc.data());
   });
   return values;
-}
-
-
+} 
 
 //Verifica se existe no Firebase
 async function verificaDados(consulta) {
@@ -103,34 +93,22 @@ function dadosParaServ() {
   return dadosServ;
 }
 
-//
 //Consulta tudo no bd e exibe
 window.buscarDados = async function () {
-  const { ValueQ1, Values } = await consultaBancoCompleto();
-  imprimeResultado(ValueQ1, Values);
+  const { ValueQ1 } = await consultaBancoCompleto();
+  imprimeResultado(ValueQ1);
 }
 
-function imprimeResultado(ValueQ1, Values) {
+//Lança na tela
+function imprimeResultado(ValueQ1) {
   let elementin = document.getElementById(`resultado`);
   elementin.innerHTML = '';
-  if (ValueQ1.nome == undefined || ValueQ1.nome == null || ValueQ1.nome == '') {
-    let html = `<span id="semResultados" >Seguem resultados mais próximos</span>`;
-    let elementin = document.getElementById(`resultado`);
-    elementin.insertAdjacentHTML("afterbegin", html);
-  }
-  if (Values.q2.nome == ValueQ1.nome && Values.q3.nome == ValueQ1.nome && Values.q4.nome == ValueQ1.nome && Object.keys(ValueQ1).length !== 0) {
-    exibeResultado(ValueQ1);
-    if (document.getElementById("btnSubmit2") !== null) {
-      var Btn2 = document.getElementById("btnSubmit2");
-      Btn2.classList.remove("beforeCheck");
-      Btn2.classList.add("afterCheck");
-    }
-  }
-  for (const key in Values) {
-    if (Object.keys(Values[key]).length !== 0) {
-      exibeResultado(Values[key]);
-      for (const key2 in Values[key]) {
-        exibeResultado(Values[key][key2]);
+  console.log(ValueQ1);
+  for (const key in ValueQ1) {
+    if (Object.keys(ValueQ1[key]).length !== 0) {
+      exibeResultado(ValueQ1[key]);
+      for (const key2 in ValueQ1[key]) {
+        exibeResultado(ValueQ1[key][key2]);
       }
     }
     if (document.getElementById("btnSubmit2") !== null) {
@@ -141,6 +119,7 @@ function imprimeResultado(ValueQ1, Values) {
   }
 }
 
+//função auxiliar
 function exibeResultado(consulta) {
   let tags = consulta.tags
   let html =
@@ -153,13 +132,13 @@ function exibeResultado(consulta) {
     </ul>`;
   if (consulta.nome !== undefined) {
     let elementin = document.getElementById(`resultado`);
-    elementin.insertAdjacentHTML("beforeend", html);
+    elementin.insertAdjacentHTML("afterbegin", html);
   }
 }
 
+//adm/deletar.html
 const auth = getAuth();
 
-//adm/deletar.html
 //Deleta a receita
 async function excluirReceita() {
   let login = 0
@@ -182,7 +161,14 @@ async function excluirReceita() {
     }
   }
   if (login = 1) {
-    await deleteDoc(doc(db, 'Produtos-docs', valueEscolhido));
+    let database = window.database;
+    let deletePath = '';
+    for (const key1 in database) {
+      if (database[key1].nome == valueEscolhido) {
+        deletaDoc = key1;
+      }
+    }
+    await deleteDoc(doc(db, 'Produtos-docs', deletePath));
     alert("A Receita foi Excluída");
     window.location.href = './index.html';
   }
@@ -222,4 +208,4 @@ window.adicionarDadosDenfer = async function () {
   adicionarDados();
 }
 
-export { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado }
+export { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado}
