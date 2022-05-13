@@ -17,7 +17,6 @@ async function resultaPesquisa() {
     if (window.database == undefined) {
         await deferRecebeBanco();
     }
-    console.log(consulta.tags);
     let database = window.database;
     const q1 = [];
     for (const key1 in database) {
@@ -28,32 +27,42 @@ async function resultaPesquisa() {
         if (database[key1].nome == consulta.nome ||
             database[key1].tempo == consulta.tempo ||
             database[key1].tipo == consulta.tipo ||
-            database[key1].tags.includes(consulta.tags) == true) 
+            verificaArrays(database[key1].tags,consulta.tags) == true) 
             {
             q1.push(database[key1]);
         }
     }
     const ValueQ1 = q1;
-    return { ValueQ1 };
+    return ValueQ1 ;
+}
+
+function verificaArrays(objetoChaveArray, tags){
+    let condition = false;
+    for (let key = 0; key < tags.length; key++) {
+        if (objetoChaveArray.includes(tags[key])) {
+            condition = true
+        }
+    }
+    return condition
 }
 
 function dadosPesquisa() {
     let values = {
         nome: document.getElementById("nome").value,
         tempo: document.getElementById("tempo").value,
-        tags: document.getElementById('tags').value,
+        tags: document.getElementById('tags').value.split(" "),
         tipo: document.getElementById("tipo").value
     }
     return values
 }
 
 window.buscarDadosPesquisa = async function () {
-    const { ValueQ1, Values } = await resultaPesquisa();
+    const { ValueQ1 } = await resultaPesquisa();
     console.log(Values);
-    prateleiraBusca(ValueQ1, Values);
+    prateleiraBusca(ValueQ1);
 }
 
-const prateleiraBusca = function (ValueQ1, Values) {
+const prateleiraBusca = function (ValueQ1) {
     let elementin = document.getElementById(`resultado-pesquisa`);
     elementin.innerHTML = '';
     for (const key in ValueQ1) {

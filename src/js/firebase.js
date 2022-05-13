@@ -2,6 +2,7 @@ import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc,  addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
+import { getStorage } from "firebase/storage";
 import '../css/style.css';
 
 function init() {
@@ -23,6 +24,12 @@ const app = initializeApp(firebaseConfig);
 
 //Inicia o Firestore
 const db = getFirestore(app);
+
+//adm/deletar.html
+const auth = getAuth(app);
+
+//Inicia o storage de imagens
+const storage = getStorage(app);
 
 async function recebeBanco() {
   const database_denfer = {};
@@ -68,11 +75,18 @@ async function consultaBanco(q) {
 } 
 
 //Verifica se existe no Firebase
-async function verificaDados(consulta) {
-  const produtos = collection(db, "Produtos-docs");
-  const q = query(produtos, where("nome", "==", consulta));
-  let valuesBolo = await consultaBanco(q);
-  return valuesBolo.nome;
+async function verificaDados(nomeAdicionar) {
+  if(window.database == undefined){
+    await deferRecebeBanco();
+  }
+  let condition = false;
+  let consulta = database
+  for (const key1 in consulta) {
+    if (consulta[key1].nome == nomeAdicionar) {
+      condition = true;
+    }
+  }
+  return condition;
 }
 
 //Retorna os dados do formulário
@@ -136,9 +150,6 @@ function exibeResultado(consulta) {
   }
 }
 
-//adm/deletar.html
-const auth = getAuth();
-
 //Deleta a receita
 async function excluirReceita() {
   let login = 0
@@ -165,7 +176,7 @@ async function excluirReceita() {
     let deletePath = '';
     for (const key1 in database) {
       if (database[key1].nome == valueEscolhido) {
-        deletaDoc = key1;
+        deletePath = key1;
       }
     }
     await deleteDoc(doc(db, 'Produtos-docs', deletePath));
@@ -183,8 +194,8 @@ async function adicionarDados() {
   const dados = dadosParaServ();
   let login = 0
   const verifica = await verificaDados(dados.nome);
-  if (dados.nome == verifica) {
-    alert("A receita já Existe");
+  if (verifica == true) {
+    modal("A receita já Existe");
   }
   else {
     onAuthStateChanged(auth, (user) => {
@@ -199,8 +210,8 @@ async function adicionarDados() {
     });
     if (login = 1) {
       const sobe = await addDoc(collection(db, "Produtos-docs"), dados);
-      alert("Receita adicionada ao catálogo com sucesso com sucesso");
-      window.location.href = './index.html';
+      alert("Receita adicionada ao catálogo com sucesso");
+      //window.location.href = './index.html';
     }
   }
 }
