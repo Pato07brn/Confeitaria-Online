@@ -1,7 +1,7 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, collection, doc,  addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
+import { getFirestore, collection, doc, addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
 import { getStorage } from "firebase/storage";
 import '../css/style.css';
 
@@ -37,7 +37,7 @@ async function recebeBanco() {
   const pesquisa = query(produtos, where("nome", "!=", ""));
   const querySnapshot = await getDocs(pesquisa);
   querySnapshot.forEach((doc) => {
-    database_denfer[doc.id] = doc.data()
+    database_denfer[doc.id] = doc.data();
   });
   window.database = database_denfer;
 }
@@ -49,19 +49,31 @@ window.deferRecebeBanco = async function () {
 
 async function consultaBancoCompleto() {
   let consulta = dadosParaServ();
-  if(window.database == undefined){
+  if (window.database == undefined) {
     await deferRecebeBanco();
   }
   let database = window.database;
   const q1 = [];
   for (const key1 in database) {
-    if (database[key1].nome == consulta.nome || database[key1].tempo == consulta.tempo || database[key1].tipo == consulta.tipo) {
+    if (database[key1].nome == consulta.nome ||
+      database[key1].tempo == consulta.tempo ||
+      database[key1].tipo == consulta.tipo ||
+      verificaArrays(database[key1].tags, consulta.tags) == true) {
       q1.push(database[key1]);
     }
   }
-  console.log(q1);
   const ValueQ1 = q1;
   return { ValueQ1 };
+}
+
+function verificaArrays(objetoChaveArray, tags) {
+  let condition = false;
+  for (let key = 0; key < tags.length; key++) {
+    if (objetoChaveArray.includes(tags[key])) {
+      condition = true
+    }
+  }
+  return condition
 }
 
 //Faz busca no bd
@@ -72,11 +84,11 @@ async function consultaBanco(q) {
     values.push(doc.data());
   });
   return values;
-} 
+}
 
 //Verifica se existe no Firebase
 async function verificaDados(nomeAdicionar) {
-  if(window.database == undefined){
+  if (window.database == undefined) {
     await deferRecebeBanco();
   }
   let condition = false;
@@ -98,10 +110,11 @@ function dadosParaServ() {
       valueTipo = radios[i].value
     }
   }
+  let arrayTags = document.getElementById('tags').value.toLowerCase()
   let dadosServ = {
-    nome: document.getElementById('nome').value,
+    nome: document.getElementById('nome').value.toLowerCase(),
     tempo: parseInt(document.getElementById('tempo').value),
-    tags: document.getElementById('tags').value.split(" "),
+    tags: arrayTags.split(" "),
     tipo: valueTipo
   }
   return dadosServ;
@@ -117,13 +130,9 @@ window.buscarDados = async function () {
 function imprimeResultado(ValueQ1) {
   let elementin = document.getElementById(`resultado`);
   elementin.innerHTML = '';
-  console.log(ValueQ1);
   for (const key in ValueQ1) {
     if (Object.keys(ValueQ1[key]).length !== 0) {
       exibeResultado(ValueQ1[key]);
-      for (const key2 in ValueQ1[key]) {
-        exibeResultado(ValueQ1[key][key2]);
-      }
     }
     if (document.getElementById("btnSubmit2") !== null) {
       var Btn2 = document.getElementById("btnSubmit2");
@@ -134,13 +143,18 @@ function imprimeResultado(ValueQ1) {
 }
 
 //função auxiliar
+function primeiraMaiuscula(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+//função auxiliar
 function exibeResultado(consulta) {
-  let tags = consulta.tags
+  let array = consulta.tags.toString()
   let html =
     `<ul class="resultadosRadio">
-      <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></li>
+      <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${primeiraMaiuscula(consulta.nome)}"/></li>
       <li id="ratioNome">Nome: ${consulta.nome}</li>
-      <li id="ratioTags">Tags: ${tags}</li>
+      <li id="ratioTags">Tags: ${array.replace(',',' ')}</li>
       <li id="tipoTags">Tipo: ${consulta.tipo}</li>
       <li id="tempoTags">Tempo: ${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</li>
     </ul>`;
@@ -161,14 +175,14 @@ async function excluirReceita() {
     }
     else {
       login = 0
-      alert("Usuário não está logado")
+      alert("Usuário não está logado");
       window.location.href = './autenticacao.html';
     }
   });
   let radios = document.getElementsByName("escolha");
   for (var i = 0; i < radios.length; i++) {
     if (radios[i].checked) {
-      valueEscolhido = radios[i].value
+      valueEscolhido = radios[i].value;
     }
   }
   if (login = 1) {
@@ -192,7 +206,7 @@ window.excluirReceitaDenfer = async function () {
 //Sobe os dados no Firebase
 async function adicionarDados() {
   const dados = dadosParaServ();
-  let login = 0
+  let login = 0;
   const verifica = await verificaDados(dados.nome);
   if (verifica == true) {
     modal("A receita já Existe");
@@ -201,10 +215,10 @@ async function adicionarDados() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
-        login = 1
+        login = 1;
       } else {
-        alert("Usuário não está logado")
-        login = 0
+        alert("Usuário não está logado");
+        login = 0;
         window.location.href = './autenticacao.html';
       }
     });
@@ -219,4 +233,4 @@ window.adicionarDadosDenfer = async function () {
   adicionarDados();
 }
 
-export { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado}
+export { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado, primeiraMaiuscula };

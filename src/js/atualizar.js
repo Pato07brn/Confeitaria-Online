@@ -2,7 +2,7 @@ import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc, getDocs, updateDoc, query, where } from 'firebase/firestore';
-import { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado } from './firebase';
+import { init, dadosParaServ, consultaBancoCompleto, imprimeResultado, primeiraMaiuscula } from './firebase';
 
 //Configuração
 const firebaseConfig = init()
@@ -18,28 +18,33 @@ const auth = getAuth();
 
 //Consulta tudo no bd e exibe para atualizar
 window.buscarDadosConsulta = async function () {
-    const { ValueQ1, Values } = await consultaBancoCompleto();
-    imprimeResultado(ValueQ1, Values);
+    const { ValueQ1 } = await consultaBancoCompleto();
+    imprimeResultado(ValueQ1);
 }
 
 window.selecionaParaAtualizar = async function () {
     let radios = document.getElementsByName("escolha");
     let valueEscolhido = '';
+    let q1 = {}
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             valueEscolhido = radios[i].value
         }
     }
-    const produtos = collection(db, "Produtos-docs");
-    const q = query(produtos, where("nome", "==", valueEscolhido));
-    const recebe = await consultaBanco(q)
-    const atualizar = recebe[0]
+    for (const key1 in database) {
+        if (database[key1].nome == valueEscolhido) {
+            q1 = database[key1];
+        }
+    }
+    const atualizar = q1
     console.log(atualizar);
+    let nome = atualizar.nome
+    let tags = atualizar.tags.toString()
     let html =
         `<h3>Atualize o nome da receita</h3>
-        <input type="text" id="nome" value="${atualizar.nome}" />
+        <input type="text" id="nome" value="${primeiraMaiuscula(nome)}" />
         <h3>Atualize as Tags de pesquisa</h3>
-        <input type="text" id="tags" placeholder="Insira as Tags de pesquisa" value="${atualizar.tags}"/>
+        <input type="text" id="tags" placeholder="Insira as Tags de pesquisa" value="${tags.replace(",", " ")}"/>
         <h3>Atualize o tempo de preparo em dias</h3>
         <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required value="${atualizar.tempo}"/>
         <h3>Atualize o tipo da receita</h3>
@@ -51,6 +56,7 @@ window.selecionaParaAtualizar = async function () {
     let elementin = document.getElementById("adicionar")
     elementin.innerHTML = html;
 }
+
 
 window.atualizar = async function () {
     let login = 0;
