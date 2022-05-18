@@ -2,7 +2,7 @@ import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc, addDoc, getDocs, deleteDoc, query, where } from 'firebase/firestore';
-import { getStorage } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import '../css/style.css';
 
 function init() {
@@ -29,7 +29,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 //Inicia o storage de imagens
-const storage = getStorage(app);
+const storage = getStorage(app, "gs://doce-amor-1e212.appspot.com/");
 
 async function recebeBanco() {
   const database_denfer = {};
@@ -110,9 +110,9 @@ function dadosParaServ() {
       valueTipo = radios[i].value
     }
   }
-  let arrayTags = document.getElementById('tags').value.toLowerCase()
+  let arrayTags = document.getElementById('tags').value
   let dadosServ = {
-    nome: document.getElementById('nome').value.toLowerCase(),
+    nome: document.getElementById('nome').value,
     tempo: parseInt(document.getElementById('tempo').value),
     tags: arrayTags.split(" "),
     tipo: valueTipo
@@ -152,9 +152,9 @@ function exibeResultado(consulta) {
   let array = consulta.tags.toString()
   let html =
     `<ul class="resultadosRadio">
-      <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${primeiraMaiuscula(consulta.nome)}"/></li>
-      <li id="ratioNome">Nome: ${consulta.nome}</li>
-      <li id="ratioTags">Tags: ${array.replace(',',' ')}</li>
+      <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></li>
+      <li id="ratioNome">Nome: ${primeiraMaiuscula(consulta.nome)}</li>
+      <li id="ratioTags">Tags: ${array.replace(',', ' ')}</li>
       <li id="tipoTags">Tipo: ${consulta.tipo}</li>
       <li id="tempoTags">Tempo: ${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</li>
     </ul>`;
@@ -195,7 +195,10 @@ async function excluirReceita() {
     }
     await deleteDoc(doc(db, 'Produtos-docs', deletePath));
     alert("A Receita foi Excluída");
-    window.location.href = './index.html';
+    delete window.database[deletePath];
+    var element = document.getElementById('resultado');
+    element.innerHTML = '';
+    buscarDados();
   }
 }
 window.excluirReceitaDenfer = async function () {
@@ -207,9 +210,15 @@ window.excluirReceitaDenfer = async function () {
 async function adicionarDados() {
   const dados = dadosParaServ();
   let login = 0;
+  const selectedFile = document.getElementById('file-img')
+  const nomeExt = extrairArquivo(selectedFile.value)
+  const imagesRef = ref(storage, `imgs-docs/${dados.nome}/${nomeExt.arquivo}`)
+  const metadata = {
+    contentType: `image/${nomeExt.extensao}`
+  };
   const verifica = await verificaDados(dados.nome);
   if (verifica == true) {
-    modal("A receita já Existe");
+    alert("A receita já Existe");
   }
   else {
     onAuthStateChanged(auth, (user) => {
@@ -224,6 +233,9 @@ async function adicionarDados() {
     });
     if (login = 1) {
       const sobe = await addDoc(collection(db, "Produtos-docs"), dados);
+      console.log(sobe.id);
+      window.database[sobe.id] = dados;
+      const upload = uploadBytesResumable(imagesRef, selectedFile.file, metadata)
       alert("Receita adicionada ao catálogo com sucesso");
       //window.location.href = './index.html';
     }
@@ -231,6 +243,14 @@ async function adicionarDados() {
 }
 window.adicionarDadosDenfer = async function () {
   adicionarDados();
+}
+
+//Função auxiliar
+function extrairArquivo(Caminho) {
+  Caminho = Caminho.replace(/\\/g, "/");
+  var Arquivo = Caminho.substring(Caminho.lastIndexOf('/') + 1);
+  var Extensao = Arquivo.substring(Arquivo.lastIndexOf('.') + 1);
+  return { arquivo: Arquivo, extensao: Extensao };
 }
 
 export { init, dadosParaServ, consultaBanco, consultaBancoCompleto, imprimeResultado, primeiraMaiuscula };

@@ -20,10 +20,6 @@ async function resultaPesquisa() {
     let database = window.database;
     const q1 = [];
     for (const key1 in database) {
-        for (let i = 0; i < consulta.tags.length; i++) {
-            database[key1].tags.includes(consulta.tags) == true
-
-        }
         if (database[key1].nome == consulta.nome ||
             database[key1].tempo == consulta.tempo ||
             database[key1].tipo == consulta.tipo ||
@@ -49,7 +45,7 @@ function dadosPesquisa() {
     let values = {
         nome: document.getElementById("nome").value.toLowerCase(),
         tempo: document.getElementById("tempo").value,
-        tags: document.getElementById('tags').value.split(" "),
+        tags: document.getElementById("tags").value.split(" "),
         tipo: document.getElementById("tipo").value
     }
     return values
