@@ -10,32 +10,82 @@
 
 <body onload="auth(), deferRecebeBanco()">
     <h1>Insira aqui as informações da receita</h1>
+    <h4>Para mais informações sobre os campos clique em @</h4>
     <form class="adicionar" autocomplete="off">
-        <h2>Insira o nome</h2>
-        <input type="text" id="nome" placeholder="Insira o nome" required />
-        <h2>Insira as tags de pesquisa</h2>
-        <input type="text" id="tags" placeholder="Insira as tags de pesquisa separadas" required/>
-        <h2>Insira o tempo de preparo em dias</h2>
-        <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required />
-        <h2>Insira o tipo da receita</h2>
-        <span class="tipos">
-            <input type="radio" name="tipo" value="Doce" />
-            <span>Doce</span>
-            <input type="radio" name="tipo" value="Torta" />
-            <span>Torta</span>
-            <input type="radio" name="tipo" value="Bolo" />
-            <span>Bolo</span>
-        </span>
-        <h2>Insira uma imagem</h2>
-        <input type="file" id="file-img" accept="image/*,.pdf"/>
+        <table>
+            <tr>
+                <th>Nome    <span id="nomeInfo">@</span>
+                </th>
+                <th>Tags    <span id="taginfo">@</span></th>
+                <th>Tempo de Preparo</th>
+                <th>Tipo</th>
+                <th>Ativo</th>
+                <th>Preço</th>
+                <th>Imagens</th>
+            </tr>
+            <tr>
+                <td><input type="text" id="nome" placeholder="Insira o nome" /></td>
+                <td><input type="text" id="tags" placeholder="Insira as tags de pesquisa separadas" /></td>
+                <td><input type="number" id="tempo" placeholder="Insira o tempo de preparo" /></td>
+                <td>
+                    <select id="tipo" name="estado">
+                        <option value=""></option>
+                        <option value="Doce">Doce</option>
+                        <option value="Bolo">Bolo</option>
+                        <option value="Torta">Torta</option>
+                    </select>
+                </td>
+                <td><input type="checkbox" id="ativo" /></td>
+                <td><input type="number" id="preco" placeholder="Preço" /></td>
+                <td><input type="file" id="file-img" accept="image/*,.pdf" /></td>
+            </tr>
+        </table>
         <input type="button" id="btnSubmit" value="Adicionar ao Catálogo" />
     </form>
+    <!-- Modals -->
+    <div id="myModal-nomeInfo" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Insira neste campo o nome da receita</p>
+        </div>
+    </div>
+    <div id="myModal-taginfo" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Insira neste campo as tags para pesquisa do usuário separadas por ","</p>
+        </div>
+    </div>
 </body>
 <script>
     document.getElementById("btnSubmit").onclick = function () {
         auth();
         adicionarDadosDenfer();
     };
+
+    var span = document.getElementsByClassName("close");
+    document.getElementById("nomeInfo").onclick = function () {
+        window.modal = document.getElementById("myModal-nomeInfo");
+        console.log(document.getElementsByClassName("modal").id)
+        modal.classList.remove("modal-fechado");
+        modal.classList.add("modal-aberto");
+    }
+    document.getElementById("taginfo").onclick = function () {
+        window.modal = document.getElementById("myModal-taginfo");
+        modal.classList.remove("modal-fechado");
+        modal.classList.add("modal-aberto");
+    }
+    
+    span.onclick = function () {
+        modal.classList.remove("modal-aberto");
+        modal.classList.add("modal-fechado");
+    }
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.classList.remove("modal-aberto");
+            modal.classList.add("modal-fechado");
+        }
+    }
+
 </script>
 
 </html>

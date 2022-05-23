@@ -14,9 +14,9 @@ form.adicionar {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    align-content: space-around;
-    align-items: stretch;
-    justify-content: space-evenly;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
     height: 90vh;
 }
 
@@ -55,31 +55,89 @@ form.adicionar2 {
     align-items: stretch;
 }
 
-form.adicionar2 ul{
+form.adicionar2 ul {
     list-style: none;
     display: grid;
     justify-items: start;
     grid-template-columns: auto auto;
-    grid-template-rows: auto auto  auto auto;
+    grid-template-rows: auto auto auto auto;
     justify-content: start;
 }
 
-form.adicionar2 ul li{
+form.adicionar2 ul li {
     grid-column: 2;
 }
 
-form.adicionar2 ul li#ratioDelete{
+form.adicionar2 ul li#ratioDelete {
     display: flex;
     grid-row: 1/span 3;
     grid-column: 1;
     align-items: center;
 }
 
+.modal-aberto {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    transition: 500ms;
+}
+
+.modal-fechado {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: -1000px;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    transition: 1s;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+th span{
+    cursor: pointer;
+    color: #4d4c4c;
+}
+th span:hover,
+th span:focus{
+    cursor: pointer;
+    color: #000;
+}
+
+
 .atualizar {
     text-align: center;
 }
 
-#pesquisa{
+#pesquisa {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
