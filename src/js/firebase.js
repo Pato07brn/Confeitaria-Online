@@ -113,9 +113,12 @@ function dadosParaServ() {
   let arrayTags = document.getElementById('tags').value
   let dadosServ = {
     nome: document.getElementById('nome').value,
-    tempo: parseInt(document.getElementById('tempo').value),
     tags: arrayTags.split(" "),
-    tipo: valueTipo
+    tempo: parseInt(document.getElementById('tempo').value),
+    tipo: valueTipo,
+    ativo: document.getElementById('ativo').checked,
+    preco: parseInt(document.getElementById('preco')),
+    descricao: document.getElementById('descricao'),
   }
   return dadosServ;
 }

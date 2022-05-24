@@ -5,54 +5,62 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Nova Receita</title>
+    <title>Cadastrar Produto</title>
 <script defer src="../js/firebase.js"></script><script defer src="../js/auth.js"></script><link href="../css/style.css" rel="stylesheet"></head>
 
 <body onload="auth(), deferRecebeBanco()">
-    <h1>Insira aqui as informações da receita</h1>
-    <h4>Para mais informações sobre os campos clique em @</h4>
+    <h1>Insira aqui as informações dos produtos</h1>
+    <h4>Para mais informações sobre os campos clique <a id="btnInfo">AQUI</a></h4>
     <form class="adicionar" autocomplete="off">
-        <table>
-            <tr>
-                <th>Nome    <span id="nomeInfo">@</span>
-                </th>
-                <th>Tags    <span id="taginfo">@</span></th>
-                <th>Tempo de Preparo</th>
-                <th>Tipo</th>
-                <th>Ativo</th>
-                <th>Preço</th>
-                <th>Imagens</th>
-            </tr>
-            <tr>
-                <td><input type="text" id="nome" placeholder="Insira o nome" /></td>
-                <td><input type="text" id="tags" placeholder="Insira as tags de pesquisa separadas" /></td>
-                <td><input type="number" id="tempo" placeholder="Insira o tempo de preparo" /></td>
-                <td>
-                    <select id="tipo" name="estado">
-                        <option value=""></option>
-                        <option value="Doce">Doce</option>
-                        <option value="Bolo">Bolo</option>
-                        <option value="Torta">Torta</option>
-                    </select>
-                </td>
-                <td><input type="checkbox" id="ativo" /></td>
-                <td><input type="number" id="preco" placeholder="Preço" /></td>
-                <td><input type="file" id="file-img" accept="image/*,.pdf" /></td>
-            </tr>
-        </table>
+        <div class="nomeCampos">
+            <span>Nome:*</span>
+            <span>Tags:</span>
+            <span>Tempo:*</span>
+            <span>Tipo:*</span>
+            <span>Ativo:</span>
+            <span>Preço:*</span>
+            <span>Descrição:</span>
+            <span>Imagens:</span>
+        </div>
+        <div>
+            <span><input type="text" id="nome" placeholder="Insira o nome do Produto" /></span>
+            <span><input type="text" id="tags" placeholder="Tags de separadas por vírgula" /></span>
+            <span><input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1"/></span>
+            <span>
+                <select id="tipo">
+                    <option value="Doce">Doce</option>
+                    <option value="Bolo">Bolo</option>
+                    <option value="Torta">Torta</option>
+                </select>
+            </span>
+                <span><input type="checkbox" id="ativo" checked />(Tornar ativo no catálogo público)</span>
+                <span><input type="number" id="preco" placeholder="Preço do produto" min="1"/></span>
+                <span class="descricao"><input type="text" id="descricao" placeholder="Descreva o produto" /></span>
+                <span class="fileImg"><input type="file" id="fileImg" accept="image/*,.pdf" /></span>
+        </div>
         <input type="button" id="btnSubmit" value="Adicionar ao Catálogo" />
     </form>
     <!-- Modals -->
-    <div id="myModal-nomeInfo" class="modal">
+    <div id="infoCampos" class="modal modal-fechado">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Insira neste campo o nome da receita</p>
-        </div>
-    </div>
-    <div id="myModal-taginfo" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Insira neste campo as tags para pesquisa do usuário separadas por ","</p>
+            <span id="close">&times;</span>
+            <h3>Nome</h3>
+            <p>Insira neste campo o nome do produto</p>
+            <h3>Tags</h3>
+            <p>tags para pesquisas gerais ex: vegano, zero lactose, sem açucar.</p>
+            <h3>Tempo de Preparo</h3>
+            <p>Neste coloque quantos dias para a confecção do produto</p>
+            <h3>Tipo</h3>
+            <p>Selecione o tipo de produto que deseja cadastrar</p>
+            <h3>Ativo</h3>
+            <p>Marque a caixa para tornar ativo no catálogo para que os clientes possam ver</p>
+            <p>Desmarcar torna a visualização apenas para a administração</p>
+            <h3>Preço</h3>
+            <p>Insira o preço em Reais do produto, ex: R$16,20 ; R$1200,00</p>
+            <h3>Descrição</h3>
+            <p>Descreva o produto neste campo, a visualização deste é opcional para os clientes</p>
+            <h3>Imagens</h3>
+            <p>Faça o upload das imagens para o catálogo aqui, certifíque-se que todas tem um nome diferente</p>
         </div>
     </div>
 </body>
@@ -62,20 +70,13 @@
         adicionarDadosDenfer();
     };
 
-    var span = document.getElementsByClassName("close");
-    document.getElementById("nomeInfo").onclick = function () {
-        window.modal = document.getElementById("myModal-nomeInfo");
-        console.log(document.getElementsByClassName("modal").id)
+    let modal = document.getElementById("infoCampos");
+
+    document.getElementById("btnInfo").onclick = function () {
         modal.classList.remove("modal-fechado");
         modal.classList.add("modal-aberto");
     }
-    document.getElementById("taginfo").onclick = function () {
-        window.modal = document.getElementById("myModal-taginfo");
-        modal.classList.remove("modal-fechado");
-        modal.classList.add("modal-aberto");
-    }
-    
-    span.onclick = function () {
+    document.getElementById("close").onclick = function () {
         modal.classList.remove("modal-aberto");
         modal.classList.add("modal-fechado");
     }

@@ -11,32 +11,34 @@ h1 {
 }
 
 form.adicionar {
-    display: flex;
+    display: grid;
     flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
+    grid-template-columns: repeat(2 , auto);
+    align-content: space-between;
+    justify-content: center;
+    justify-items: center;
+}
+
+form.adicionar div {
+    display: grid;
+    flex-direction: column;
+    grid-template-rows: repeat(8, 2fr);
+    align-content: space-between;
     align-items: center;
-    justify-content: flex-start;
-    height: 90vh;
+    justify-content: center;
+    justify-items: start;
+}
+
+form.adicionar .nomeCampos {
+    font-size: 1.5em;
+}
+
+form.adicionar div + div span input{
+    width: 130%;
 }
 
 input {
-    text-align: center;
-}
-
-.tipos {
-    display: grid;
-    align-items: stretch;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto;
-    justify-items: start;
-    justify-content: center;
-    gap: 1rem;
-    width: 10vw;
-}
-
-#btnSubmit {
-    margin-top: 2em;
+    text-align: left;
 }
 
 .beforeCheck {
@@ -45,6 +47,10 @@ input {
 
 .afterCheck {
     display: block;
+}
+
+.atualizar {
+    text-align: center;
 }
 
 form.adicionar2 {
@@ -108,33 +114,28 @@ form.adicionar2 ul li#ratioDelete {
     border: 1px solid #888;
 }
 
-.close {
+#close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+#close:hover,
+#close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-
-th span{
+#btnInfo{
+    text-decoration: underline;
     cursor: pointer;
     color: #4d4c4c;
 }
-th span:hover,
-th span:focus{
+#btnInfo:hover,
+#btnInfo:focus{
     cursor: pointer;
     color: #000;
-}
-
-
-.atualizar {
-    text-align: center;
 }
 
 #pesquisa {
@@ -143,4 +144,26 @@ th span:focus{
     flex-wrap: nowrap;
     align-content: flex-end;
     align-items: flex-start;
+}
+
+#btnSubmit {
+    margin-top: 2em;
+    grid-column: 1/ span 2;
+}
+
+#ativo{
+    width: 22px;
+    height: 22px;
+}
+
+#tipo{
+    font-size: 1.2em;
+}
+
+.descricao{
+    grid-row: 7/span 2;
+}
+
+.fileImg {
+    grid-row: 9/9;
 }
