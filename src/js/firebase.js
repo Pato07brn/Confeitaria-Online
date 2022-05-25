@@ -103,22 +103,16 @@ async function verificaDados(nomeAdicionar) {
 
 //Retorna os dados do formulário
 function dadosParaServ() {
-  let radios = document.getElementsByName("tipo");
-  let valueTipo = '';
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i].checked) {
-      valueTipo = radios[i].value
-    }
-  }
-  let arrayTags = document.getElementById('tags').value
+  let arrayTags = document.getElementById('tags').value;
   let dadosServ = {
     nome: document.getElementById('nome').value,
-    tags: arrayTags.split(" "),
+    tags: arrayTags.split(","),
     tempo: parseInt(document.getElementById('tempo').value),
-    tipo: valueTipo,
+    tipo: document.getElementById('tipo').value,
     ativo: document.getElementById('ativo').checked,
-    preco: parseInt(document.getElementById('preco')),
-    descricao: document.getElementById('descricao'),
+    preco: parseFloat(document.getElementById('preco').value),
+    descricao: document.getElementById('descricao').value
+    //img: document.getElementById('fileimg').value
   }
   return dadosServ;
 }
@@ -211,14 +205,16 @@ window.excluirReceitaDenfer = async function () {
 //adm/adicionar-novo.html
 //Sobe os dados no Firebase
 async function adicionarDados() {
+  const modalMsg = document.getElementById("infoAdcionou");
   const dados = dadosParaServ();
   let login = 0;
-  const selectedFile = document.getElementById('file-img')
-  const nomeExt = extrairArquivo(selectedFile.value)
-  const imagesRef = ref(storage, `imgs-docs/${dados.nome}/${nomeExt.arquivo}`)
-  const metadata = {
-    contentType: `image/${nomeExt.extensao}`
-  };
+  let vazio = false;
+  /*const selectedFile = dados.img;
+    const nomeExt = extrairArquivo(selectedFile)
+    const imagesRef = ref(storage, `imgs-docs/${dados.nome}/${nomeExt.arquivo}`)
+    const metadata = {
+      contentType: `image/${nomeExt.extensao}`
+    }; */
   const verifica = await verificaDados(dados.nome);
   if (verifica == true) {
     alert("A receita já Existe");
@@ -227,6 +223,9 @@ async function adicionarDados() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         const uid = user.uid;
+        if(dados.nome == '' || dados.tempo == '' || dados.preco == ''){
+          vazio = true;
+        }
         login = 1;
       } else {
         alert("Usuário não está logado");
@@ -234,12 +233,13 @@ async function adicionarDados() {
         window.location.href = './autenticacao.html';
       }
     });
-    if (login = 1) {
+    if (login == 1 && vazio == false) {
       const sobe = await addDoc(collection(db, "Produtos-docs"), dados);
       console.log(sobe.id);
       window.database[sobe.id] = dados;
-      const upload = uploadBytesResumable(imagesRef, selectedFile.file, metadata)
-      alert("Receita adicionada ao catálogo com sucesso");
+      //const upload = uploadBytesResumable(imagesRef, selectedFile.file, metadata)
+      modalMsg.classList.remove("modal-fechado");
+      modalMsg.classList.add("modal-aberto");
       //window.location.href = './index.html';
     }
   }

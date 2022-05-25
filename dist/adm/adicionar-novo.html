@@ -19,13 +19,13 @@
             <span>Tipo:*</span>
             <span>Ativo:</span>
             <span>Preço:*</span>
-            <span>Descrição:</span>
+            <span class="descricao">Descrição:</span>
             <span>Imagens:</span>
         </div>
         <div>
-            <span><input type="text" id="nome" placeholder="Insira o nome do Produto" /></span>
+            <span><input type="text" id="nome" placeholder="Insira o nome do Produto" required/></span>
             <span><input type="text" id="tags" placeholder="Tags de separadas por vírgula" /></span>
-            <span><input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1"/></span>
+            <span><input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1" /></span>
             <span>
                 <select id="tipo">
                     <option value="Doce">Doce</option>
@@ -33,12 +33,12 @@
                     <option value="Torta">Torta</option>
                 </select>
             </span>
-                <span><input type="checkbox" id="ativo" checked />(Tornar ativo no catálogo público)</span>
-                <span><input type="number" id="preco" placeholder="Preço do produto" min="1"/></span>
-                <span class="descricao"><input type="text" id="descricao" placeholder="Descreva o produto" /></span>
-                <span class="fileImg"><input type="file" id="fileImg" accept="image/*,.pdf" /></span>
+            <span><input type="checkbox" id="ativo" checked />(Tornar ativo no catálogo público)</span>
+            <span><input type="number" id="preco" placeholder="Preço do produto" min="1" /></span>
+            <span class="descricao"><input type="text" id="descricao" placeholder="Descreva o produto" /></span>
+            <span class="fileImg"><input type="file" id="fileImg" accept="image/*,.pdf" /></span>
         </div>
-        <input type="button" id="btnSubmit" value="Adicionar ao Catálogo" />
+        <input type="submit" id="btnSubmit" value="Adicionar ao Catálogo" />
     </form>
     <!-- Modals -->
     <div id="infoCampos" class="modal modal-fechado">
@@ -56,11 +56,18 @@
             <p>Marque a caixa para tornar ativo no catálogo para que os clientes possam ver</p>
             <p>Desmarcar torna a visualização apenas para a administração</p>
             <h3>Preço</h3>
-            <p>Insira o preço em Reais do produto, ex: R$16,20 ; R$1200,00</p>
+            <p>Insira o preço do produto sem adicionar "R$" e lembrar da "," para os centavos, ex: 16,20 para R$16,20 ;
+                1200,00 para R$1200,00</p>
             <h3>Descrição</h3>
             <p>Descreva o produto neste campo, a visualização deste é opcional para os clientes</p>
             <h3>Imagens</h3>
             <p>Faça o upload das imagens para o catálogo aqui, certifíque-se que todas tem um nome diferente</p>
+        </div>
+    </div>
+    <div id="infoAdcionou" class="modal modal-fechado">
+        <div class="modal-content">
+            <p>Produto cadastrado com sucesso deseja retonar ao home ou adicionar outro produto?</p>
+            <button href="./index.html" >Home</button><button id="closeMsg">Adicionar outro</button>
         </div>
     </div>
 </body>
@@ -70,23 +77,36 @@
         adicionarDadosDenfer();
     };
 
-    let modal = document.getElementById("infoCampos");
+    let modalInfo = document.getElementById("infoCampos");
 
     document.getElementById("btnInfo").onclick = function () {
-        modal.classList.remove("modal-fechado");
-        modal.classList.add("modal-aberto");
+        modalInfo.classList.remove("modal-fechado");
+        modalInfo.classList.add("modal-aberto");
     }
     document.getElementById("close").onclick = function () {
-        modal.classList.remove("modal-aberto");
-        modal.classList.add("modal-fechado");
+        modalInfo.classList.remove("modal-aberto");
+        modalInfo.classList.add("modal-fechado");
     }
     window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.classList.remove("modal-aberto");
-            modal.classList.add("modal-fechado");
+        if (event.target == modalInfo) {
+            modalInfo.classList.remove("modal-aberto");
+            modalInfo.classList.add("modal-fechado");
         }
     }
 
+    //Mensagem Modal
+    let modalMsg = document.getElementById("infoAdcionou");
+
+    document.getElementById("closeMsg").onclick = function () {
+        modalMsg.classList.remove("modal-aberto");
+        modalMsg.classList.add("modal-fechado");
+    }
+    window.onclick = function (event) {
+        if (event.target == modalInfo) {
+            modalMsg.classList.remove("modal-aberto");
+            modalMsg.classList.add("modal-fechado");
+        }
+    }
 </script>
 
 </html>
