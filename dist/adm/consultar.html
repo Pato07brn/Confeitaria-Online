@@ -5,44 +5,59 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consultar uma receita</title>
-    <style>
-        #ratioChose, #ratioIN{
-            display: none;
-        }
-    </style>
-<script defer src="../js/firebase.js"></script><script defer src="../js/auth.js"></script><link href="../css/style.css" rel="stylesheet"></head>
+    <title>Consulta</title>
+<script defer src="../js/firebase.js"></script><script defer src="../js/auth.js"></script><script defer src="../js/atualizar.js"></script><link href="../css/style.css" rel="stylesheet"></head>
 
 <body onload="auth(), deferRecebeBanco()">
-    <h1>Consultar uma receita</h1>
-    <form class="adicionar">
-        <h2>Insira o nome</h2>
-        <input type="text" id="nome" placeholder="Insira o nome" required />
-        <h2>Insira as tags de pesquisa</h2>
-        <input type="text" id="tags" placeholder="Insira as tags de pesquisa separadas"/>
-        <h2>Insira o tempo de preparo em dias</h2>
-        <input type="number" id="tempo" placeholder="Insira o tempo de preparo" required />
-        <h2>Insira o Preço</h2>
-        <input type="float" id="preco" placeholder="Insira o tempo de preparo" required />
-        <h2>Insira o tipo da receita</h2>
-        <span class="tipos">
-            <input type="radio" name="tipo" value="Doce" />
-            <span>Doce</span>
-            <input type="radio" name="tipo" value="Torta" />
-            <span>Torta</span>
-            <input type="radio" name="tipo" value="Bolo" />
-            <span>Bolo</span>
-        </span>
-        <input type="button" id="btnSubmit1" value="Verificar o Catálogo" />
+    <h1>Consultar produtos cadastrados</h1>
+    <form class="consultar" autocomplete="off">
+        <div class="nomeCampos">
+            <span>
+                Nome:*<input type="text" id="nome" placeholder="Insira o nome do Produto" />
+            </span>
+            <span>
+                Tempo:*<input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1" />
+            </span>
+            <span>
+                Tipo:
+                <select id="tipo">
+                    <option value="Teste">TESTE</option>
+                    <option value="Doce">Doce</option>
+                    <option value="Bolo">Bolo</option>
+                    <option value="Torta">Torta</option>
+                </select>
+            </span>
+            <span>
+                Ativo:<input type="checkbox" id="ativo" checked />(Está ativo no catálogo público)
+            </span>
+            <span>
+                Preço:*<input type="number" id="preco" placeholder="Insira do preço produto" min="0,01" />
+            </span>
+        </div>
+        <input type="button" id="btnSubmit" value="Buscar no Catálogo" />
     </form>
-    <form class="adicionar2">
-        <span id="resultado">
-
-        </span>
-    </form>
+    <div class="tabela">
+        <table>
+            <thead class="cabecalho">
+                <tr>
+                    <th>Nome</th>
+                    <th>Tags</th>
+                    <th>Tempo</th>
+                    <th>Tipo</th>
+                    <th>Ativo</th>
+                    <th>Preço</th>
+                    <th>Descrição</th>
+                    <th>Imagens</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <Tbody id="resultado">
+            </Tbody>
+        </table>
+    </div>
 </body>
 <script defer type="text/javascript">
-    document.getElementById("btnSubmit1").onclick = function () {
+    document.getElementById("btnSubmit").onclick = function () {
         auth();
         buscarDados();
     };

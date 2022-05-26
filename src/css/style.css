@@ -1,19 +1,35 @@
 body {
-    background-color: aquamarine;
+    background-color: rgb(219, 175, 79);
     font-family: Arial, Helvetica, sans-serif;
     height: 100vh;
     overflow: auto;
 }
 
-h1 {
+h1,
+h4 {
     margin: 10px;
     text-align: center;
+}
+
+table{
+    width: 90%;
+}
+table,
+th,
+td {
+    border: 1px solid white;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    background-color: #96D4D4;
 }
 
 form.adicionar {
     display: grid;
     flex-direction: column;
-    grid-template-columns: repeat(2 , auto);
+    grid-template-columns: repeat(2, auto);
     align-content: space-between;
     justify-content: center;
     justify-items: center;
@@ -27,18 +43,67 @@ form.adicionar div {
     align-items: center;
     justify-content: center;
     justify-items: start;
+    gap: 3px;
+}
+
+form.adicionar div span {
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    justify-content: space-between;
+    width: 100%;
+    align-items: stretch;
+}
+
+form.adicionar div span input,
+form.adicionar div span select {
+    width: 70%;
 }
 
 form.adicionar .nomeCampos {
     font-size: 1.5em;
 }
 
-form.adicionar div + div span input{
-    width: 130%;
+form.consultar {
+    display: grid;
+    flex-direction: column;
+    grid-template-columns: repeat(2, auto);
+    align-content: space-between;
+    justify-content: center;
+    justify-items: center;
+}
+
+form.consultar div {
+    display: grid;
+    flex-direction: column;
+    grid-template-rows: repeat(5, 1fr);
+    align-content: space-between;
+    align-items: center;
+    justify-content: center;
+    justify-items: start;
+    gap: 3px;
+}
+
+form.consultar div span {
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    justify-content: space-between;
+    width: 100%;
+    align-items: stretch;
+}
+
+form.consultar div span input,
+form.consultar div span select {
+    width: 70%;
 }
 
 input {
     text-align: left;
+}
+
+.tabela {
+    text-align: -webkit-center;
 }
 
 .beforeCheck {
@@ -53,34 +118,6 @@ input {
     text-align: center;
 }
 
-form.adicionar2 {
-    display: flex;
-    align-content: space-around;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
-
-form.adicionar2 ul {
-    list-style: none;
-    display: grid;
-    justify-items: start;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto auto auto;
-    justify-content: start;
-}
-
-form.adicionar2 ul li {
-    grid-column: 2;
-}
-
-form.adicionar2 ul li#ratioDelete {
-    display: flex;
-    grid-row: 1/span 3;
-    grid-column: 1;
-    align-items: center;
-}
-
 .modal-aberto {
     display: block;
     position: fixed;
@@ -90,7 +127,7 @@ form.adicionar2 ul li#ratioDelete {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0, 0, 0);
+    background-color: black;
     background-color: rgba(0, 0, 0, 0.4);
     transition: 500ms;
 }
@@ -127,13 +164,15 @@ form.adicionar2 ul li#ratioDelete {
     text-decoration: none;
     cursor: pointer;
 }
-#btnInfo{
+
+#btnInfo {
     text-decoration: underline;
     cursor: pointer;
     color: #4d4c4c;
 }
+
 #btnInfo:hover,
-#btnInfo:focus{
+#btnInfo:focus {
     cursor: pointer;
     color: #000;
 }
@@ -147,21 +186,15 @@ form.adicionar2 ul li#ratioDelete {
 }
 
 #btnSubmit {
-    margin-top: 2em;
+    border-radius: 10px;
+    padding: 5px;
+    margin: 1em;
     grid-column: 1/ span 2;
 }
 
-#ativo{
+#ativo {
     width: 22px;
     height: 22px;
-}
-
-#tipo{
-    font-size: 1.2em;
-}
-
-.descricao{
-    grid-row: 7/span 2;
 }
 
 .fileImg {

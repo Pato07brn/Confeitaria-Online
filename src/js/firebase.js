@@ -48,25 +48,24 @@ window.deferRecebeBanco = async function () {
 
 
 async function consultaBancoCompleto() {
-  let consulta = dadosParaServ();
+  let consulta = dadosParaConsulta();
   if (window.database == undefined) {
     await deferRecebeBanco();
   }
   let database = window.database;
-  const q1 = [];
+  const ValueQ1 = [];
   for (const key1 in database) {
     if (database[key1].nome == consulta.nome ||
       database[key1].tempo == consulta.tempo ||
       database[key1].tipo == consulta.tipo ||
-      verificaArrays(database[key1].tags, consulta.tags) == true) {
-      q1.push(database[key1]);
+      database[key1].tags.includes(consulta.nome) == true) {
+      ValueQ1.push(database[key1]);
     }
   }
-  const ValueQ1 = q1;
   return { ValueQ1 };
 }
 
-function verificaArrays(objetoChaveArray, tags) {
+/* function verificaArrays(objetoChaveArray, tags) {
   let condition = false;
   for (let key = 0; key < tags.length; key++) {
     if (objetoChaveArray.includes(tags[key])) {
@@ -74,7 +73,7 @@ function verificaArrays(objetoChaveArray, tags) {
     }
   }
   return condition
-}
+} */
 
 //Faz busca no bd
 async function consultaBanco(q) {
@@ -117,6 +116,18 @@ function dadosParaServ() {
   return dadosServ;
 }
 
+function dadosParaConsulta() {
+  let dadosServ = {
+    nome: document.getElementById('nome').value,
+    tempo: parseInt(document.getElementById('tempo').value),
+    tipo: document.getElementById('tipo').value,
+    ativo: document.getElementById('ativo').checked,
+    preco: parseFloat(document.getElementById('preco').value),
+    //img: document.getElementById('fileimg').value
+  }
+  return dadosServ;
+}
+
 //Consulta tudo no bd e exibe
 window.buscarDados = async function () {
   const { ValueQ1 } = await consultaBancoCompleto();
@@ -125,7 +136,7 @@ window.buscarDados = async function () {
 
 //Lança na tela
 function imprimeResultado(ValueQ1) {
-  let elementin = document.getElementById(`resultado`);
+  let elementin = document.getElementById('resultado');
   elementin.innerHTML = '';
   for (const key in ValueQ1) {
     if (Object.keys(ValueQ1[key]).length !== 0) {
@@ -148,67 +159,53 @@ function primeiraMaiuscula(string) {
 function exibeResultado(consulta) {
   let array = consulta.tags.toString()
   let html =
-    `<ul class="resultadosRadio">
-      <li id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></li>
-      <li id="ratioNome">Nome: ${primeiraMaiuscula(consulta.nome)}</li>
-      <li id="ratioTags">Tags: ${array.replace(',', ' ')}</li>
-      <li id="tipoTags">Tipo: ${consulta.tipo}</li>
-      <li id="tempoTags">Tempo: ${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</li>
-    </ul>`;
+    `<tr class="resultadosRadio">
+      <td>${primeiraMaiuscula(consulta.nome)}</td>
+      <td>${array.replace(',', ', ')}</td>
+      <td>${consulta.tempo} ${consulta.tempo > 1 ? "Dias" : "Dia"}</td>
+      <td>${consulta.tipo == undefined ? "Nada aqui" : consulta.tipo}</td>
+      <td><input type="checkbox"${consulta.ativo == false || consulta.ativo == undefined? "" : "checked"}></td>
+      <td>${consulta.preco == undefined ? "Nada aqui" : consulta.preco}</td>
+      <td>${consulta.descricao == undefined ? "Nada aqui" : consulta.descricao}</td>
+      <td>em construção</td>
+      <td><button onclick="excluirReceitaDenfer('${consulta.nome}')">deletar</button>
+    </tr>`;
+    console.log(consulta.ativo);
+  //<td id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></td>
   if (consulta.nome !== undefined) {
     let elementin = document.getElementById(`resultado`);
     elementin.insertAdjacentHTML("afterbegin", html);
   }
+  else {
+    elementin.insertAdjacentHTML("afterbegin", "<div>Nenhum resultado obtido</div>");
+  }
 }
 
 //Deleta a receita
-async function excluirReceita() {
-  let login = 0
-  let valueEscolhido = '';
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-      login = 1
-    }
-    else {
-      login = 0
-      alert("Usuário não está logado");
-      window.location.href = './autenticacao.html';
-    }
-  });
-  let radios = document.getElementsByName("escolha");
-  for (var i = 0; i < radios.length; i++) {
-    if (radios[i].checked) {
-      valueEscolhido = radios[i].value;
+async function excluirReceita(codigo) {
+  let database = window.database;
+  let deletePath = '';
+  for (const key1 in database) {
+    if (database[key1].nome == codigo) {
+      deletePath = key1;
     }
   }
-  if (login = 1) {
-    let database = window.database;
-    let deletePath = '';
-    for (const key1 in database) {
-      if (database[key1].nome == valueEscolhido) {
-        deletePath = key1;
-      }
-    }
-    await deleteDoc(doc(db, 'Produtos-docs', deletePath));
-    alert("A Receita foi Excluída");
-    delete window.database[deletePath];
-    var element = document.getElementById('resultado');
-    element.innerHTML = '';
-    buscarDados();
-  }
+  await deleteDoc(doc(db, 'Produtos-docs', deletePath));
+  alert("A Receita foi Excluída");
+  delete window.database[deletePath];
+  var element = document.getElementById('resultado');
+  element.innerHTML = '';
+  buscarDados();
 }
-window.excluirReceitaDenfer = async function () {
-  excluirReceita();
+window.excluirReceitaDenfer = async function (codigo) {
+  excluirReceita(codigo);
 }
 
 //adm/adicionar-novo.html
 //Sobe os dados no Firebase
 async function adicionarDados() {
-  const modalMsg = document.getElementById("infoAdcionou");
+  const modalMsg = document.getElementById("infoAdicionou");
   const dados = dadosParaServ();
-  let login = 0;
-  let vazio = false;
   /*const selectedFile = dados.img;
     const nomeExt = extrairArquivo(selectedFile)
     const imagesRef = ref(storage, `imgs-docs/${dados.nome}/${nomeExt.arquivo}`)
@@ -220,20 +217,11 @@ async function adicionarDados() {
     alert("A receita já Existe");
   }
   else {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const uid = user.uid;
-        if(dados.nome == '' || dados.tempo == '' || dados.preco == ''){
-          vazio = true;
-        }
-        login = 1;
-      } else {
-        alert("Usuário não está logado");
-        login = 0;
-        window.location.href = './autenticacao.html';
-      }
-    });
-    if (login == 1 && vazio == false) {
+    if (dados.nome == '' || dados.tempo == '' || dados.preco == '') {
+      console.log('dados incompletos');
+    }
+    else {
+      console.log('aqui');
       const sobe = await addDoc(collection(db, "Produtos-docs"), dados);
       console.log(sobe.id);
       window.database[sobe.id] = dados;

@@ -11,33 +11,41 @@
 <body onload="auth(), deferRecebeBanco()">
     <h1>Insira aqui as informações dos produtos</h1>
     <h4>Para mais informações sobre os campos clique <a id="btnInfo">AQUI</a></h4>
-    <form class="adicionar" autocomplete="off">
+    <form class="adicionar" id="adicionarBd" autocomplete="off">
         <div class="nomeCampos">
-            <span>Nome:*</span>
-            <span>Tags:</span>
-            <span>Tempo:*</span>
-            <span>Tipo:*</span>
-            <span>Ativo:</span>
-            <span>Preço:*</span>
-            <span class="descricao">Descrição:</span>
-            <span>Imagens:</span>
-        </div>
-        <div>
-            <span><input type="text" id="nome" placeholder="Insira o nome do Produto" required/></span>
-            <span><input type="text" id="tags" placeholder="Tags de separadas por vírgula" /></span>
-            <span><input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1" required/></span>
             <span>
+                Nome:*<input type="text" id="nome" placeholder="Insira o nome do Produto" required />
+            </span>
+            <span>
+                Tags:<input type="text" id="tags" placeholder="Tags para pesquisa separadas por vírgula" />
+            </span>
+            <span>
+                Tempo:*<input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1"
+                    required />
+            </span>
+            <span>
+                Tipo:
                 <select id="tipo">
+                    <option value="Teste">TESTE</option>
                     <option value="Doce">Doce</option>
                     <option value="Bolo">Bolo</option>
                     <option value="Torta">Torta</option>
                 </select>
             </span>
-            <span><input type="checkbox" id="ativo" checked />(Tornar ativo no catálogo público)</span>
-            <span><input type="number" id="preco" placeholder="Preço do produto" min="1" required/></span>
-            <span class="descricao"><input type="text" id="descricao" placeholder="Descreva o produto" /></span>
-            <span class="fileImg"><input type="file" id="fileImg" accept="image/*,.pdf" /></span>
+            <span>
+                Ativo:<input type="checkbox" id="ativo" checked />(Tornar ativo no catálogo público)
+            </span>
+            <span>
+                Preço:*<input type="number" id="preco" placeholder="Insira do preço produto" min="0,01" required />
+            </span>
+            <span class="descricao">
+                Descrição:<input type="text" id="descricao" placeholder="Descreva o produto" />
+            </span>
+            <span>
+                Imagens:<input type="file" id="fileImg" accept="image/*,.pdf" />
+            </span>
         </div>
+        <button></button>
         <input type="submit" id="btnSubmit" value="Adicionar ao Catálogo" />
     </form>
     <!-- Modals -->
@@ -64,21 +72,23 @@
             <p>Faça o upload das imagens para o catálogo aqui, certifíque-se que todas tem um nome diferente</p>
         </div>
     </div>
-    <div id="infoAdcionou" class="modal modal-fechado">
+    <div id="infoAdicionou" class="modal modal-fechado">
         <div class="modal-content">
             <p>Produto cadastrado com sucesso deseja retonar ao home ou adicionar outro produto?</p>
-            <button href="./index.html" >Home</button><button id="closeMsg">Adicionar outro</button>
+            <button href="./index.html">Home</button><button id="closeMsg1">Adicionar outro</button>
         </div>
     </div>
 </body>
 <script>
-    document.getElementById("btnSubmit").onclick = function () {
+    const form = document.getElementById('adicionarBd');
+    form.addEventListener('submit', (event) => {
         auth();
         adicionarDadosDenfer();
-    };
+        event.preventDefault();
+    });
 
+    //Instruções modal
     let modalInfo = document.getElementById("infoCampos");
-
     document.getElementById("btnInfo").onclick = function () {
         modalInfo.classList.remove("modal-fechado");
         modalInfo.classList.add("modal-aberto");
@@ -95,14 +105,13 @@
     }
 
     //Mensagem Modal
-    let modalMsg = document.getElementById("infoAdcionou");
-
-    document.getElementById("closeMsg").onclick = function () {
+    let modalMsg = document.getElementById("infoAdicionou");
+    document.getElementById("closeMsg1").onclick = function () {
         modalMsg.classList.remove("modal-aberto");
         modalMsg.classList.add("modal-fechado");
     }
     window.onclick = function (event) {
-        if (event.target == modalInfo) {
+        if (event.target == modalMsg) {
             modalMsg.classList.remove("modal-aberto");
             modalMsg.classList.add("modal-fechado");
         }

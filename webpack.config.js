@@ -33,19 +33,9 @@ module.exports = {
       chunks: ['firebase', 'auth']
     }),
     new HtmlWebpackPlugin({
-      filename: 'adm/atualizar.html',
-      template: './src/adm/atualizar.html',
-      chunks: ['firebase', 'auth', 'atualizar']
-    }),
-    new HtmlWebpackPlugin({
       filename: 'adm/consultar.html',
       template: './src/adm/consultar.html',
-      chunks: ['firebase', 'auth']
-    }),
-    new HtmlWebpackPlugin({
-      filename: 'adm/delete.html',
-      template: './src/adm/delete.html',
-      chunks: ['firebase', 'auth']
+      chunks: ['firebase', 'auth' ,'atualizar']
     }),
     new HtmlWebpackPlugin({
       filename: './index.html',
