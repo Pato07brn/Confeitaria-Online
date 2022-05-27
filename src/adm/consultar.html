@@ -10,6 +10,7 @@
 
 <body onload="auth(), deferRecebeBanco()">
     <h1>Consultar produtos cadastrados</h1>
+    <button id="voltar-home">Voltar ao Home</button>
     <form class="consultar" autocomplete="off">
         <div class="nomeCampos">
             <span>
@@ -57,6 +58,9 @@
     </div>
 </body>
 <script defer type="text/javascript">
+    document.getElementById('voltar-home').onclick = function () {
+        window.location.href = './index.html'
+    }
     document.getElementById("btnSubmit").onclick = function () {
         auth();
         buscarDados();

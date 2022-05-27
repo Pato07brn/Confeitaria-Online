@@ -1,7 +1,7 @@
 import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore,  doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { init } from './firebase';
 
 //Configuração
@@ -111,19 +111,19 @@ window.selecionaParaAtualizar = async function (nome) {
     }
     let html =
         `<tr id="${atualizar.nome}">
-      <td><input type="text" value="${atualizar.nome}" id="nome_"></td>
-      <td><input type="text" value="${atualizar.tags}"id="tags"></td>
-      <td><input type="number" min="1" value="${atualizar.tempo}"id="tempo_"></td>
-      <td><select id="tipo_">
+      <td><input type="text" value="${atualizar.nome}" id="nome_${atualizar.nome}"></td>
+      <td><input type="text" value="${atualizar.tags}"id="tags_${atualizar.nome}"></td>
+      <td><input type="number" min="1" value="${atualizar.tempo}"id="tempo_${atualizar.nome}"></td>
+      <td><select id="tipo_${atualizar.nome}">
       <option value="${atualizar.tipo == undefined ? "Nada aqui" : atualizar.tipo}">${atualizar.tipo == undefined ? "Nada aqui" : atualizar.tipo}</option>
       <option value="Teste">Teste</option>
       <option value="Doce">Doce</option>
       <option value="Bolo">Bolo</option>
       <option value="Torta">Torta</option>
       </select></td>
-      <td><input type="checkbox" ${atualizar.ativo == false || atualizar.ativo == undefined ? "" : "checked"} id="ativo_"></td>
-      <td><input type="number" min="0.01" value="${atualizar.preco == undefined ? 0.01 : atualizar.preco}" id="preco_"></td>
-      <td><input type="text" value="${atualizar.descricao == undefined ? "Nada aqui" : atualizar.descricao}" id="descricao"></td>
+      <td><input type="checkbox" ${atualizar.ativo == false || atualizar.ativo == undefined ? "" : "checked"} id="ativo_${atualizar.nome}"></td>
+      <td><input type="number" min="0.01" value="${atualizar.preco == undefined ? 0.01 : atualizar.preco}" id="preco_${atualizar.nome}"></td>
+      <td><input type="text" value="${atualizar.descricao == undefined ? "Nada aqui" : atualizar.descricao}" id="descricao_${atualizar.nome}"></td>
       <td>em construção</td>
       <td id="acoes${atualizar.nome}">
       <button class="confirma" onclick="atualizar('${atualizar.nome}')">Confirmar</button>
@@ -135,16 +135,16 @@ window.selecionaParaAtualizar = async function (nome) {
 }
 
 //Retorna os dados do formulário para atualizar
-function dadosParaAtualizar() {
-    let arrayTags = document.getElementById('tags').value;
+function dadosParaAtualizar(id) {
+    let arrayTags = document.getElementById('tags_' + id).value;
     let dadosServ = {
-        nome: document.getElementById('nome_').value,
+        nome: document.getElementById('nome_' + id).value,
         tags: arrayTags.split(","),
-        tempo: parseInt(document.getElementById('tempo_').value),
-        tipo: document.getElementById('tipo_').value,
-        ativo: document.getElementById('ativo_').checked,
-        preco: parseFloat(document.getElementById('preco_').value),
-        descricao: document.getElementById('descricao').value
+        tempo: parseInt(document.getElementById('tempo_' + id).value),
+        tipo: document.getElementById('tipo_' + id).value,
+        ativo: document.getElementById('ativo_' + id).checked,
+        preco: parseFloat(document.getElementById('preco_' + id).value),
+        descricao: document.getElementById('descricao_' + id).value
         //img: document.getElementById('fileimg').value
     }
     return dadosServ;
@@ -152,12 +152,16 @@ function dadosParaAtualizar() {
 
 //Atualiza efetivamente
 window.atualizar = async function (nome) {
+    atualizarDenfer(nome);
+}
+const atualizarDenfer = async function (nome) {
+    let atualizar = ''
     for (const key1 in database) {
         if (database[key1].nome == nome) {
             atualizar = key1;
         }
     }
-    let dados = dadosParaAtualizar();
+    let dados = dadosParaAtualizar(nome);
     console.log(dados);
     const produtosDocs = doc(db, "Produtos-docs", atualizar);
     await updateDoc(produtosDocs, {
@@ -174,6 +178,7 @@ window.atualizar = async function (nome) {
     alert("Produto atualizada com sucesso");
     window.buscarDados();
     //window.location.href = './index.html';
+    return null;
 }
 
 /* --------------------------DELETE---------------------- */
@@ -181,7 +186,7 @@ window.atualizar = async function (nome) {
 window.confirmaDeletar = function (codigo) {
     let element = document.getElementById('acoes' + codigo);
     let html =
-    `
+        `
       <button class="confirma" onclick="excluirProdutoDenfer('${codigo}')">Confirmar</button>
       <button class="cancela" onclick="cancela('${codigo}')">Cancelar</button>
     `;

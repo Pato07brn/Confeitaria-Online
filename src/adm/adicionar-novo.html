@@ -10,6 +10,7 @@
 
 <body onload="auth(), deferRecebeBanco()">
     <h1>Insira aqui as informações dos produtos</h1>
+    <button id="voltar-home">Voltar ao Home</button>
     <h4>Para mais informações sobre os campos clique <a id="btnInfo">AQUI</a></h4>
     <form class="adicionar" id="adicionarBd" autocomplete="off">
         <div class="nomeCampos">
@@ -85,7 +86,9 @@
         adicionarDadosDenfer();
         event.preventDefault();
     });
-
+    document.getElementById('voltar-home').onclick = function () {
+        window.location.href = './index.html'
+    }
     //Instruções modal
     let modalInfo = document.getElementById("infoCampos");
     document.getElementById("btnInfo").onclick = function () {
