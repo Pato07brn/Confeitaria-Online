@@ -8,7 +8,7 @@ module.exports = {
     index: './src/js/index.js',
     firebase: './src/js/firebase.js',
     auth: './src/js/auth.js',
-    atualizar: './src/js/atualizar.js',
+    actions: './src/js/actions.js',
   },
   output: {
     filename: 'js/[name].js',
@@ -19,7 +19,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'adm/index.html',
       template: './src/adm/index.html',
-      chunks: ['auth', 'atualizar']
+      chunks: ['auth']
     }),
     new HtmlWebpackPlugin({
       filename: 'adm/autenticacao.html',
@@ -35,12 +35,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'adm/consultar.html',
       template: './src/adm/consultar.html',
-      chunks: ['firebase', 'auth' ,'atualizar']
+      chunks: ['firebase', 'auth' , 'actions']
     }),
     new HtmlWebpackPlugin({
       filename: './index.html',
       template: './src/index.html',
-      chunks: ['index' , 'firebase']
+      chunks: ['index']
     }),
     new MiniCssExtractPlugin({
       filename: "css/style.css",

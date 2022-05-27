@@ -8,26 +8,18 @@
   <title>
     Doce amor
   </title>
-<script defer src="../js/auth.js"></script><script defer src="../js/atualizar.js"></script><link href="../css/style.css" rel="stylesheet"></head>
+<script defer src="../js/auth.js"></script><link href="../css/style.css" rel="stylesheet"></head>
 
 <body onload="auth()">
   <input type="button" id="btnAdicionar" value="Adicionar" />
-  <input type="button" id="btnAtualizar" value="Atualizar" />
   <input type="button" id="btnConsultar" value="Consultar" />
-  <input type="button" id="btnDeletar" value="Deletar" />
 </body>
 <script type="text/javascript">
   document.getElementById("btnAdicionar").onclick = function () {
     auth('./adicionar-novo.html');
   };
-  document.getElementById("btnAtualizar").onclick = function () {
-    auth('./atualizar.html');
-  };
   document.getElementById("btnConsultar").onclick = function () {
     auth('./consultar.html');
-  };
-  document.getElementById("btnDeletar").onclick = function () {
-    auth('./delete.html');
   };
 </script>
 

@@ -200,3 +200,19 @@ input {
 .fileImg {
     grid-row: 9/9;
 }
+
+.cancela{
+    background-color: #f00;
+}
+
+.confirma{
+    background-color: #0f0;
+}
+
+.deletar{
+    background-color: #ffd900;
+}
+
+.atualizar{
+    background-color: #00ffdd;
+}
