@@ -75,7 +75,7 @@ function dadosParaServ() {
 
 //Sobe os dados no Firebase
 async function adicionarDados() {
-  const modalMsg = document.getElementById("infoAdicionou");
+  const modalMsg = document.getElementById("modalSucess");
   const dados = dadosParaServ();
   /*const selectedFile = dados.img;
     const nomeExt = extrairArquivo(selectedFile)
@@ -97,8 +97,7 @@ async function adicionarDados() {
       console.log(sobe.id);
       window.database[sobe.id] = dados;
       //const upload = uploadBytesResumable(imagesRef, selectedFile.file, metadata)
-      modalMsg.classList.remove("modal-fechado");
-      modalMsg.classList.add("modal-aberto");
+      window.mostraModal();
       //window.location.href = './index.html';
     }
   }
