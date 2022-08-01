@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import '../css/style.css';
+import * as bootstrap from 'bootstrap'
 
 function init() {
   return {

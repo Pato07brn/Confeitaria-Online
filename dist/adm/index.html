@@ -8,14 +8,16 @@
   <title>
     Home
   </title>
-<script defer src="../js/auth.js"></script><link href="../css/style.css" rel="stylesheet"></head>
+<script defer src="../js/auth.js"></script></head>
 
-<body onload="auth()">
-  <div class="home">
-    <input type="button" id="btnAdicionar" value="Adicionar" />
-    <input type="button" id="btnConsultar" value="Consultar" />
-  </div>
-  <button id="btnSair">Sair do sistema</button>
+<body onload="auth()" class="main">
+  <main>
+    <div class="home">
+      <button class="btn btn-info" id="btnAdicionar" value="Adicionar">Adicionar</button>
+      <button class="btn btn-success" id="btnConsultar" value="Consultar">Consultar</button>
+    </div>
+    <button class="btn btn-danger" id="btnSair" value="Sair">Sair do Sistema</button>
+  </main>
 </body>
 <script type="text/javascript">
   document.getElementById("btnAdicionar").onclick = function () {

@@ -2,6 +2,7 @@ import { async } from '@firebase/util';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { init } from './firebase';
+import 'bootstrap';
 
 //Configuração
 const firebaseConfig = init()

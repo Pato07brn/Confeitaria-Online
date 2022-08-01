@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -35,16 +34,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: 'adm/consultar.html',
       template: './src/adm/consultar.html',
-      chunks: ['firebase', 'auth' , 'actions']
+      chunks: ['firebase', 'auth', 'actions']
     }),
     new HtmlWebpackPlugin({
       filename: './index.html',
       template: './src/index.html',
       chunks: ['index']
     }),
-    new MiniCssExtractPlugin({
-      filename: "css/style.css",
-    })
   ],
   module: {
     rules: [
@@ -55,11 +51,26 @@ module.exports = {
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'sass-loader'
-        ],
+        use: [{
+          loader: 'style-loader', // injeta CSS na página
+        },
+        {
+          loader: 'css-loader', // traduz CSS em módulos commonJS
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: {
+              plugins: () => [
+                require('autoprefixer')
+              ]
+            }
+          }
+        },
+        {
+          loader: 'sass-loader' // compila Sass em CSS
+        }
+        ]
       },
     ],
   },

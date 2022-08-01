@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap";
 body {
     background-color: rgb(219, 175, 79);
     font-family: Arial, Helvetica, sans-serif;
@@ -96,6 +97,20 @@ form.consultar div span select {
 input.text{
     width: 100%;
     text-align: left;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+}
+
+.home {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+    gap: 15px;
+    margin: 0 auto;
 }
 
 .tabela {
