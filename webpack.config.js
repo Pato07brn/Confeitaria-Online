@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   mode: 'development',
@@ -41,6 +42,9 @@ module.exports = {
       template: './src/index.html',
       chunks: ['index']
     }),
+    new MiniCssExtractPlugin({
+      filename: "css/style.css"
+    })
   ],
   module: {
     rules: [
@@ -51,26 +55,11 @@ module.exports = {
       },
       {
         test: /\.(sa|sc|c)ss$/,
-        use: [{
-          loader: 'style-loader', // injeta CSS na página
-        },
-        {
-          loader: 'css-loader', // traduz CSS em módulos commonJS
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: () => [
-                require('autoprefixer')
-              ]
-            }
-          }
-        },
-        {
-          loader: 'sass-loader' // compila Sass em CSS
-        }
-        ]
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'sass-loader'
+        ],
       },
     ],
   },
