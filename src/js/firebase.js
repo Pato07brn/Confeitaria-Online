@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, doc, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import '../css/style.css';
+import '../css/main.css';
 import * as bootstrap from 'bootstrap'
 
 function init() {
@@ -57,6 +58,7 @@ window.deferRecebeBanco = async function () {
   }
   return condition
 } */
+
 /* --------------------------CREATE---------------------- */
 //Retorna os dados do formulário
 function dadosParaServ() {

@@ -24,6 +24,13 @@ window.buscarDados = async function () {
     imprimeResultado(ValueQ1);
 }
 
+window.comecaConsulta = async function () {
+    if (window.database == undefined) {
+        await deferRecebeBanco();
+    }
+    imprimeResultado(database);
+}
+
 //Retorna dados do fomulário de consulta
 function dadosParaConsulta() {
     let dadosServ = {
@@ -46,7 +53,7 @@ async function consultaBancoCompleto() {
     let database = window.database;
     const ValueQ1 = [];
     for (const key1 in database) {
-        if (database[key1].nome == consulta.nome ||
+        if (database[key1].nome.includes(consulta.nome) == true ||
             database[key1].tempo == consulta.tempo ||
             database[key1].tipo == consulta.tipo ||
             database[key1].tags.includes(consulta.nome) == true) {
@@ -78,13 +85,13 @@ function exibeResultado(consulta) {
     let html =
         `
       <tr id="${consulta.nome}">
-        <td><input type="text" value="${consulta.nome}" disabled ></td>
-        <td><input type="text" value="${consulta.tags}" disabled ></td>
-        <td><input type="number" min="1" value="${consulta.tempo}" disabled></td>
-        <td><select disabled><option>${consulta.tipo == undefined ? "Nada aqui" : consulta.tipo}</option></select></td>
-        <td><input type="checkbox" ${consulta.ativo == false || consulta.ativo == undefined ? "" : "checked"} disabled></td>
-        <td><input type="number" min="0.01" value="${consulta.preco == undefined ? 0.01 : consulta.preco}" disabled></td>
-        <td><input type="text" value="${consulta.descricao == undefined ? "Nada aqui" : consulta.descricao}" disabled></td>
+        <td>${consulta.nome}</td>
+        <td>${consulta.tags}</td>
+        <td>${consulta.tempo} dias</td>
+        <td>${consulta.tipo == undefined ? "Nada aqui" : consulta.tipo}</td>
+        <td>${consulta.ativo == false || consulta.ativo == undefined ? "Desativado" : "Ativo"}</td>
+        <td>R$${consulta.preco == undefined ? 0.01 : consulta.preco}</td>
+        <td>${consulta.descricao == undefined ? "Nada aqui" : consulta.descricao}</td>
         <td>em construção</td>
         <td id="acoes${consulta.nome}"><button class="deletar" onclick="confirmaDeletar('${consulta.nome}')">Deletar</button><button class="atualizar" onclick="selecionaParaAtualizar('${consulta.nome}')">Atualizar</button></td>
       </tr>
@@ -92,7 +99,7 @@ function exibeResultado(consulta) {
     //<td id="ratioIN"><input type="radio" id="ratioChose" name="escolha" value="${consulta.nome}"/></td>
     if (consulta.nome !== undefined) {
         let elementin = document.getElementById(`resultado`);
-        elementin.insertAdjacentHTML("afterbegin", html);
+        elementin.insertAdjacentHTML("beforeend", html);
     }
     else {
         elementin.insertAdjacentHTML("afterbegin", "<div>Nenhum resultado obtido</div>");

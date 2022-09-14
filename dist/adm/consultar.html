@@ -8,35 +8,39 @@
     <title>Consulta</title>
 <script defer src="../js/firebase.js"></script><script defer src="../js/auth.js"></script><script defer src="../js/actions.js"></script><link href="../css/style.css" rel="stylesheet"></head>
 
-<body onload="auth(), deferRecebeBanco()">
+<body onload="auth(), deferRecebeBanco(), comecaConsulta()">
     <h1>Consultar produtos cadastrados</h1>
     <button id="voltar-home">Voltar ao Home</button>
     <form class="consultar" autocomplete="off">
         <div class="nomeCampos">
             <span>
-                Nome:*<input type="text" id="nome" placeholder="Insira o nome do Produto" />
+                Nome:<input type="text" id="nome" placeholder="Insira o nome do Produto" />
             </span>
-            <span class="pesq-avan">
-                <span>
-                    Tempo:*<input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1" />
-                </span>
-                <span>
-                    Tipo:
-                    <select id="tipo">
-                        <option value=""></option>
-                        <option value="Teste">Teste</option>
-                        <option value="Doce">Doce</option>
-                        <option value="Bolo">Bolo</option>
-                        <option value="Torta">Torta</option>
-                    </select>
-                </span>
-                <span>
-                    Ativo:<input type="checkbox" id="ativo"  />(Está ativo no catálogo público)
-                </span>
-                <span>
-                    Preço:*<input type="number" id="preco" placeholder="Insira do preço produto" min="0,01" />
-                </span>
-            </div>
+            <span id="drop-down-pesq">
+                pesquisa avançada 
+            </span>
+        </div>
+        <div class="nomeCampos pesq-avan">
+            <span>
+                Tempo:<input type="number" id="tempo" placeholder="Insira o tempo de preparo em dias" min="1" />
+            </span>
+            <span>
+                Tipo:
+                <select id="tipo">
+                    <option value=""></option>
+                    <option value="Teste">Teste</option>
+                    <option value="Doce">Doce</option>
+                    <option value="Bolo">Bolo</option>
+                    <option value="Torta">Torta</option>
+                </select>
+            </span>
+            <span>
+                Ativo:<input type="checkbox" id="ativo" checked />
+            </span>
+            <span>
+                Preço:<input type="number" id="preco" placeholder="Insira do preço produto" min="0,01" />
+            </span>
+        </div>
         </span>
         <input type="button" id="btnSubmit" value="Buscar no Catálogo" />
     </form>
